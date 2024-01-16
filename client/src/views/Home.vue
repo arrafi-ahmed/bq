@@ -4,6 +4,7 @@ import { isValidTxtfile, parseTextToJson } from "@/others/util";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { toast } from "vuetify-sonner";
 
 const store = useStore();
 const router = useRouter();
@@ -12,8 +13,9 @@ const inputFile = ref(null);
 const handleTextUpload = (files) => {
   store.commit("setProgress", true);
   inputFile.value = files[0];
+};
 
-  // Check if the file is a valid text file
+const handleClickConvert = () => {
   if (isValidTxtfile(inputFile.value)) {
     parseTextToJson(inputFile.value)
       .then(({ data, lineInfo }) => {
@@ -26,6 +28,8 @@ const handleTextUpload = (files) => {
       .finally(() => {
         store.commit("setProgress", false);
       });
+  } else {
+    alert("Invalid file!");
   }
 };
 </script>
@@ -61,7 +65,12 @@ const handleTextUpload = (files) => {
 
         <v-row class="mt-2" justify="center">
           <v-col cols="auto">
-            <v-btn variant="outlined" class="mx-auto">Convert</v-btn>
+            <v-btn
+              variant="outlined"
+              class="mx-auto"
+              @click="handleClickConvert"
+              >Convert
+            </v-btn>
           </v-col>
         </v-row>
       </v-col>
