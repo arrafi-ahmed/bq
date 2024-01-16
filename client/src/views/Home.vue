@@ -11,12 +11,12 @@ const router = useRouter();
 const inputFile = ref(null);
 
 const handleTextUpload = (files) => {
-  store.commit("setProgress", true);
   inputFile.value = files[0];
 };
 
 const handleClickConvert = () => {
   if (isValidTxtfile(inputFile.value)) {
+    store.commit("setProgress", true);
     parseTextToJson(inputFile.value)
       .then(({ data, lineInfo }) => {
         store.commit("quiz/setInputJson", { data, lineInfo });
