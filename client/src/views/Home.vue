@@ -4,7 +4,6 @@ import { isValidTxtfile, parseTextToJson } from "@/others/util";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { toast } from "vuetify-sonner";
 
 const store = useStore();
 const router = useRouter();
@@ -37,7 +36,7 @@ const handleClickConvert = () => {
   <v-container class="fill-height">
     <page-title title="Upload File"></page-title>
     <v-row justify="center" align="center" class="fill-height">
-      <v-col>
+      <v-col cols="12" md="6">
         <v-file-input
           :rules="[
             (v) =>

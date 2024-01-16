@@ -28,42 +28,46 @@ const downloadJsonFile = () => {
       </v-btn>
     </page-title>
     <v-row>
-      <v-col>
-        <div v-if="inputJson.data.Diseases_category">
-          <p class="level-1 pa-2 pl-l1">
-            Disease Category Name:
-            {{ inputJson.Diseases_category?.Disease_category_name }}
-          </p>
+      <v-col
+        v-if="inputJson && inputJson.data && inputJson.data.Diseases_category"
+      >
+        <p class="level-1 pa-2 pl-l1">
+          {{ inputJson.data.Diseases_category?.Disease_category_name }}
+        </p>
 
-          <div
-            v-for="(disease, diseaseKey) in inputJson.data.Diseases_category"
-            :key="diseaseKey"
-            v-if="diseaseKey !== 'Disease_category_name'"
-          >
-            <div v-if="diseaseKey !== 'Disease_category_name'" class="level-2">
-              <div class="pa-2 pl-l2">{{ disease.Disease_Name }}</div>
-              <div
-                v-for="(subcategory, key) in disease"
-                :key="key"
-                v-if="key !== 'Disease_Name'"
-              >
-                <div v-if="key !== 'Disease_Name'" class="level-3">
-                  <div class="pa-2 pl-l3">{{ key }}:</div>
-                  <div
-                    v-for="(item, subcategoryChildIndex) in subcategory"
-                    :key="subcategoryChildIndex"
-                    class="level-4"
-                  >
-                    <div class="pa-2 pl-l4">{{ item }}</div>
-                    <v-divider
-                      v-if="subcategoryChildIndex + 1 !== subcategory.length"
-                    ></v-divider>
-                  </div>
+        <div
+          v-for="(disease, diseaseKey) in inputJson.data.Diseases_category"
+          :key="diseaseKey"
+          v-if="diseaseKey !== 'Disease_category_name'"
+        >
+          <div v-if="diseaseKey !== 'Disease_category_name'" class="level-2">
+            <div class="pa-2 pl-l2">{{ disease.Disease_Name }}</div>
+            <div
+              v-for="(subcategory, key) in disease"
+              :key="key"
+              v-if="key !== 'Disease_Name'"
+            >
+              <div v-if="key !== 'Disease_Name'" class="level-3">
+                <div class="pa-2 pl-l3">{{ key }}:</div>
+                <div
+                  v-for="(item, subcategoryChildIndex) in subcategory"
+                  :key="subcategoryChildIndex"
+                  class="level-4"
+                >
+                  <div class="pa-2 pl-l4">{{ item }}</div>
+                  <v-divider
+                    v-if="subcategoryChildIndex + 1 !== subcategory.length"
+                  ></v-divider>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </v-col>
+      <v-col v-else>
+        <v-alert variant="outlined" type="warning" border="top">
+          No Data Available
+        </v-alert>
       </v-col>
     </v-row>
   </v-container>

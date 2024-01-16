@@ -27,26 +27,39 @@ export const parseTextToJson = async (file) => {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    if (!line.startsWith("\t") && line.trim() !== "") {
+    // const index = line.search(/\S/); // find the index of the first non-whitespace character
+    // const spaces = index - 1; // subtract 1 to get the number of spaces before
+
+    const spaces = line.length - line.trimStart().length;
+
+    console.log("line=", line);
+    console.log(
+      "line.length=",
+      line.length,
+      "line.trimStart().length=",
+      line.trimStart().length
+    );
+    console.log("spaces=", spaces);
+    console.log("-------");
+
+    if (spaces === 0 && line.trim() !== "") {
       lineInfo.push({ serial: i, level: 1 });
       category = line;
       data["Diseases_category"]["Disease_category_name"] = category;
-    } else if (
-      line.startsWith("\t") &&
-      !line.startsWith("\t\t") &&
-      line.trim() !== ""
-    ) {
+      console.log(
+        0,
+        line,
+        category,
+        data["Diseases_category"]["Disease_category_name"]
+      );
+    } else if (spaces === 1 && line.trim() !== "") {
       lineInfo.push({ serial: i, level: 2 });
       disease_counter += 1;
       disease = line.trim();
       data["Diseases_category"][
         "Disease-" + String.fromCharCode(64 + disease_counter)
       ] = { Disease_Name: disease };
-    } else if (
-      line.startsWith("\t\t") &&
-      !line.startsWith("\t\t\t") &&
-      line.trim() !== ""
-    ) {
+    } else if (spaces === 2 && line.trim() !== "") {
       lineInfo.push({ serial: i, level: 3 });
       sub_category = line.trim();
       data["Diseases_category"][
