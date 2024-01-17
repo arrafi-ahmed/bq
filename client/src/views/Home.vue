@@ -1,6 +1,6 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import { isValidTxtfile, parseTextToJson } from "@/others/util";
+import { convertTextToArr, isValidTxtfile } from "@/others/util";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -16,9 +16,11 @@ const handleTextUpload = (files) => {
 const handleClickConvert = () => {
   if (isValidTxtfile(inputFile.value)) {
     store.commit("setProgress", true);
-    parseTextToJson(inputFile.value)
-      .then(({ data, lineInfo }) => {
-        store.commit("quiz/setInputJson", { data, lineInfo });
+    convertTextToArr(inputFile.value)
+      .then(({ data, level }) => {
+        // console.log(23, data, level);
+        store.commit("quiz/setInputArr", data);
+        store.commit("quiz/setLevel", level);
         router.push("text-edit");
       })
       .catch((error) => {

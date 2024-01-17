@@ -8,14 +8,25 @@ export const isProd = import.meta.env.PROD;
 
 const reader = new FileReader();
 
-export const parseTextToJson = async (file) => {
-  const fileContent = new Promise((resolve, reject) => {
-    reader.readAsText(file, "utf-8");
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(reader.error);
-  });
-  const text = await fileContent;
+export const convertArrayToText = (array) => {
+  // Initialize an empty string to store the text
+  let text = "";
+  // Loop through the array
+  for (let i = 0; i < array.length; i++) {
+    // Loop through the subarray
+    for (let j = 0; j < array[i].length; j++) {
+      // Check if the value is not null
+      if (array[i][j] !== null) {
+        // Append the repeated tab character and the value to the text
+        text += "\t".repeat(j) + array[i][j] + "\n";
+      }
+    }
+  }
 
+  return text;
+};
+
+export const convertTextToJson = (text) => {
   let data = { Diseases_category: {} };
   let disease_counter = 0;
   let category = null;
@@ -81,7 +92,93 @@ export const parseTextToJson = async (file) => {
       ] = item;
     }
   }
-  return { data, lineInfo };
+  return data;
+};
+
+export const convertTextToArr = async (file) => {
+  const fileContent = new Promise((resolve, reject) => {
+    reader.readAsText(file, "utf-8");
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+  });
+  const text = await fileContent;
+  const lines = text.split("\n");
+  const data = [];
+  const level = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    const spaces = line.length - line.trimStart().length;
+    const row = [null, null, null, null];
+    line = line.trim();
+    if (line !== "") {
+      if (spaces === 0) {
+        row[0] = line;
+      } else if (spaces === 1) {
+        row[1] = line;
+      } else if (spaces === 2) {
+        row[2] = line;
+      } else if (spaces === 3) {
+        row[3] = line;
+      }
+      data.push(row);
+      level.push(spaces);
+    }
+  }
+  return { data, level };
+};
+
+export const parseTextToJson = (inputArray) => {
+  let result = { Diseases_category: {} };
+
+  function addItem(category, diseaseName, key, value) {
+    if (!result.Diseases_category[category]) {
+      result.Diseases_category[category] = { Disease_category_name: category };
+    }
+    if (!result.Diseases_category[category][diseaseName]) {
+      result.Diseases_category[category][diseaseName] = {
+        Disease_Name: diseaseName,
+      };
+    }
+
+    // Check if the key already exists, if not create an array
+    if (!result.Diseases_category[category][diseaseName][key]) {
+      result.Diseases_category[category][diseaseName][key] = [];
+    }
+
+    // Add the value to the array
+    result.Diseases_category[category][diseaseName][key].push(value);
+  }
+
+  let currentCategory = null;
+  let currentDiseaseName = null;
+  let diseaseCounter = 0; // Counter for Disease-A, Disease-B, etc.
+
+  for (let row of inputArray) {
+    if (row[0] !== null) {
+      currentCategory = row[0];
+    } else if (row[1] !== null) {
+      currentDiseaseName =
+        "Disease-" + String.fromCharCode(65 + diseaseCounter++);
+    } else if (
+      row[2] === "Definition" ||
+      row[2] === "Symptoms" ||
+      row[2] === "Objectives" ||
+      row[2] === "Paraclinical" ||
+      row[2] === "Treatments"
+    ) {
+      // Dynamically handle variable amount of items
+      let key = row[2];
+      if (row[3]) {
+        key += "-" + row[3];
+      }
+      addItem(currentCategory, currentDiseaseName, key, row[4]);
+    }
+  }
+
+  // Convert the result object to a JSON string with indentation
+  return JSON.stringify(result, null, 2);
 };
 
 export const formatDate = (inputDate) => {
