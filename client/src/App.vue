@@ -1,5 +1,5 @@
 <script setup>
-import { VSonner } from "vuetify-sonner";
+import { Toaster } from "vue-sonner";
 import ProgressLoader from "@/components/ProgressLoader.vue";
 
 import { watch } from "vue";
@@ -15,7 +15,7 @@ watch(route, (to) => {
 </script>
 <template>
   <progress-loader />
-  <v-sonner :visible-toasts="9" expand position="bottom-left" />
+  <Toaster :expand="true" closeButton position="bottom-left" rich-colors />
   <router-view />
 </template>
 <style>

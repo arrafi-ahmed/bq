@@ -2,22 +2,24 @@
 import { useStore } from "vuex";
 import { computed, ref } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
-import { convertArrayToText, convertTextToJson } from "@/others/util";
+import {
+  convertArrayToText,
+  convertTextToJson,
+  showToast,
+} from "@/others/util";
 
 const store = useStore();
 const data = computed(() => store.state.quiz.inputArr);
 const level = computed(() => store.state.quiz.level);
-const text = ref(null);
 const downloadJsonFile = () => {
-  const convertedText = convertArrayToText(data.value);
-  const convertedJson = JSON.stringify(
-    convertTextToJson(convertedText),
-    null,
-    2
-  );
-  text.value = convertedText;
-  // console.log(2, convertedText);
-  // console.log(3, convertedJson);
+  const convertedText = convertArrayToText(data.value, level.value);
+  let convertedJson = null;
+  try {
+    convertedJson = JSON.stringify(convertTextToJson(convertedText), null, 2);
+  } catch (err) {
+    showToast(err.message, "error");
+    return;
+  }
   const blob = new Blob([convertedJson], { type: "text/html" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -43,68 +45,46 @@ const modifyLevel = (rowIndex, action) => {
     </page-title>
     <v-row>
       <v-col v-if="data">
-        <!--        <pre>-->
-        <!--                        {{ data }}-->
-        <!--                                  {{ text }}-->
-        <!--                      </pre-->
-        <!--        >-->
         <template v-for="(row, rowIndex) in data" :key="rowIndex">
           <template v-for="(col, colIndex) in row" :key="colIndex">
             <div v-if="col">
-              <div
-                class="d-flex justify-space-between"
-                :class="`level-${level[rowIndex] + 1}`"
-              >
-                <p class="pa-1">{{ col }}</p>
-                <div class="d-flex">
-                  <v-btn
-                    @click="modifyLevel(rowIndex, 'sub')"
-                    :disabled="level[rowIndex] === 0"
-                    icon="mdi-arrow-left"
-                    size="small"
-                    variant="text"
-                  ></v-btn>
-                  <v-btn
-                    @click="modifyLevel(rowIndex, 'add')"
-                    :disabled="level[rowIndex] === 3"
-                    icon="mdi-arrow-right"
-                    size="small"
-                    variant="text"
-                  ></v-btn>
-                </div>
-              </div>
+              <v-row no-gutters>
+                <v-col
+                  cols="1"
+                  :class="`level-${level[rowIndex] + 1}-color`"
+                  class="ps-2"
+                  >{{ rowIndex + 1 }}
+                </v-col>
+                <v-col
+                  cols="11"
+                  :class="`level-${level[rowIndex] + 1}`"
+                  class="pe-1"
+                >
+                  <span class="d-flex justify-space-between align-center">
+                    <span>{{ col }}</span>
+                    <span class="d-flex">
+                      <v-btn
+                        @click="modifyLevel(rowIndex, 'sub')"
+                        :disabled="level[rowIndex] === 0"
+                        icon="mdi-arrow-left"
+                        size="x-small"
+                        variant="text"
+                      ></v-btn>
+                      <v-btn
+                        @click="modifyLevel(rowIndex, 'add')"
+                        :disabled="level[rowIndex] === 3"
+                        icon="mdi-arrow-right"
+                        size="x-small"
+                        variant="text"
+                      ></v-btn>
+                    </span>
+                  </span>
+                </v-col>
+              </v-row>
               <v-divider></v-divider>
             </div>
           </template>
         </template>
-        <!--        <p class="level-1 pa-2 pl-l1">-->
-        <!--          {{ inputJson.data.Diseases_category?.Disease_category_name }}-->
-        <!--        </p>-->
-
-        <!--        <div v-for="(item, index) in inputArr" :key="index">-->
-        <!--          <div v-if="diseaseKey !== 'Disease_category_name'" class="level-2">-->
-        <!--            <div class="pa-2 pl-l2">{{ disease.Disease_Name }}</div>-->
-        <!--            <div-->
-        <!--              v-for="(subcategory, key) in disease"-->
-        <!--              :key="key"-->
-        <!--              v-if="key !== 'Disease_Name'"-->
-        <!--            >-->
-        <!--              <div v-if="key !== 'Disease_Name'" class="level-3">-->
-        <!--                <div class="pa-2 pl-l3">{{ key }}:</div>-->
-        <!--                <div-->
-        <!--                  v-for="(item, subcategoryChildIndex) in subcategory"-->
-        <!--                  :key="subcategoryChildIndex"-->
-        <!--                  class="level-4"-->
-        <!--                >-->
-        <!--                  <div class="pa-2 pl-l4">{{ item }}</div>-->
-        <!--                  <v-divider-->
-        <!--                    v-if="subcategoryChildIndex + 1 !== subcategory.length"-->
-        <!--                  ></v-divider>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </v-col>
       <v-col v-else>
         <v-alert variant="outlined" type="warning" border="top">
@@ -116,6 +96,22 @@ const modifyLevel = (rowIndex, action) => {
 </template>
 
 <style scoped>
+.level-1-color {
+  background-color: #b4c7e7;
+}
+
+.level-2-color {
+  background-color: #f8cbad;
+}
+
+.level-3-color {
+  background-color: #ffd966;
+}
+
+.level-4-color {
+  background-color: #a9d18e;
+}
+
 .level-1 {
   background-color: #b4c7e7;
   padding-left: 50px !important;

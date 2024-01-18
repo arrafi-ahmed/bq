@@ -8,21 +8,16 @@ export const isProd = import.meta.env.PROD;
 
 const reader = new FileReader();
 
-export const convertArrayToText = (array) => {
-  // Initialize an empty string to store the text
+export const convertArrayToText = (data, level) => {
   let text = "";
-  // Loop through the array
-  for (let i = 0; i < array.length; i++) {
-    // Loop through the subarray
-    for (let j = 0; j < array[i].length; j++) {
-      // Check if the value is not null
-      if (array[i][j] !== null) {
+  for (let row = 0; row < data.length; row++) {
+    for (let col = 0; col < data[row].length; col++) {
+      if (data[row][col] !== null) {
         // Append the repeated tab character and the value to the text
-        text += "\t".repeat(j) + array[i][j] + "\n";
+        text += "\t".repeat(level[row]) + data[row][col] + "\n";
       }
     }
   }
-
   return text;
 };
 
@@ -33,63 +28,62 @@ export const convertTextToJson = (text) => {
   let sub_category = null;
   let disease = null;
   const lines = text.split("\n");
-  let lineInfo = [];
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    const spaces = line.length - line.trimStart().length;
 
     // const index = line.search(/\S/); // find the index of the first non-whitespace character
     // const spaces = index - 1; // subtract 1 to get the number of spaces before
-
-    const spaces = line.length - line.trimStart().length;
-
-    console.log("line=", line);
-    console.log(
-      "line.length=",
-      line.length,
-      "line.trimStart().length=",
-      line.trimStart().length
-    );
-    console.log("spaces=", spaces);
-    console.log("-------");
-
-    if (spaces === 0 && line.trim() !== "") {
-      lineInfo.push({ serial: i, level: 1 });
-      category = line;
-      data["Diseases_category"]["Disease_category_name"] = category;
-      console.log(
-        0,
-        line,
-        category,
-        data["Diseases_category"]["Disease_category_name"]
-      );
-    } else if (spaces === 1 && line.trim() !== "") {
-      lineInfo.push({ serial: i, level: 2 });
-      disease_counter += 1;
-      disease = line.trim();
-      data["Diseases_category"][
-        "Disease-" + String.fromCharCode(64 + disease_counter)
-      ] = { Disease_Name: disease };
-    } else if (spaces === 2 && line.trim() !== "") {
-      lineInfo.push({ serial: i, level: 3 });
-      sub_category = line.trim();
-      data["Diseases_category"][
-        "Disease-" + String.fromCharCode(64 + disease_counter)
-      ][sub_category] = {};
-    } else if (line.trim() !== "") {
-      lineInfo.push({ serial: i, level: 4 });
-      let item_counter =
-        Object.keys(
-          data["Diseases_category"][
-            "Disease-" + String.fromCharCode(64 + disease_counter)
-          ][sub_category]
-        ).length + 1;
-      let item = line.trim();
-      data["Diseases_category"][
-        "Disease-" + String.fromCharCode(64 + disease_counter)
-      ][sub_category][
-        sub_category.slice(0, 4) + "-" + String.fromCharCode(64 + item_counter)
-      ] = item;
+    // console.log("line=", line);
+    // console.log(
+    //   "line.length=",
+    //   line.length,
+    //   "line.trimStart().length=",
+    //   line.trimStart().length
+    // );
+    // console.log("spaces=", spaces);
+    // console.log("-------");
+    console.log(83, spaces);
+    try {
+      if (spaces === 0 && line.trim() !== "") {
+        category = line;
+        data["Diseases_category"]["Disease_category_name"] = category;
+        // console.log(
+        //   0,
+        //   line,
+        //   category,
+        //   data["Diseases_category"]["Disease_category_name"]
+        // );
+      } else if (spaces === 1 && line.trim() !== "") {
+        disease_counter += 1;
+        disease = line.trim();
+        data["Diseases_category"][
+          "Disease-" + String.fromCharCode(64 + disease_counter)
+        ] = { Disease_Name: disease };
+      } else if (spaces === 2 && line.trim() !== "") {
+        sub_category = line.trim();
+        data["Diseases_category"][
+          "Disease-" + String.fromCharCode(64 + disease_counter)
+        ][sub_category] = {};
+      } else if (line.trim() !== "") {
+        let item_counter =
+          Object.keys(
+            data["Diseases_category"][
+              "Disease-" + String.fromCharCode(64 + disease_counter)
+            ][sub_category]
+          ).length + 1;
+        let item = line.trim();
+        data["Diseases_category"][
+          "Disease-" + String.fromCharCode(64 + disease_counter)
+        ][sub_category][
+          sub_category.slice(0, 4) +
+            "-" +
+            String.fromCharCode(64 + item_counter)
+        ] = item;
+      }
+    } catch (err) {
+      throw new Error(`Error parsing Line ${i + 1}`);
     }
   }
   return data;
@@ -129,56 +123,18 @@ export const convertTextToArr = async (file) => {
   return { data, level };
 };
 
-export const parseTextToJson = (inputArray) => {
-  let result = { Diseases_category: {} };
-
-  function addItem(category, diseaseName, key, value) {
-    if (!result.Diseases_category[category]) {
-      result.Diseases_category[category] = { Disease_category_name: category };
-    }
-    if (!result.Diseases_category[category][diseaseName]) {
-      result.Diseases_category[category][diseaseName] = {
-        Disease_Name: diseaseName,
-      };
-    }
-
-    // Check if the key already exists, if not create an array
-    if (!result.Diseases_category[category][diseaseName][key]) {
-      result.Diseases_category[category][diseaseName][key] = [];
-    }
-
-    // Add the value to the array
-    result.Diseases_category[category][diseaseName][key].push(value);
+export const showToast = (msg, color) => {
+  if (color === "success") {
+    toast.success(msg);
+  } else if (color === "error") {
+    toast.error(msg);
+  } else if (color === "info") {
+    toast.info(msg);
+  } else if (color === "warning") {
+    toast.warning(msg);
+  } else {
+    toast(msg);
   }
-
-  let currentCategory = null;
-  let currentDiseaseName = null;
-  let diseaseCounter = 0; // Counter for Disease-A, Disease-B, etc.
-
-  for (let row of inputArray) {
-    if (row[0] !== null) {
-      currentCategory = row[0];
-    } else if (row[1] !== null) {
-      currentDiseaseName =
-        "Disease-" + String.fromCharCode(65 + diseaseCounter++);
-    } else if (
-      row[2] === "Definition" ||
-      row[2] === "Symptoms" ||
-      row[2] === "Objectives" ||
-      row[2] === "Paraclinical" ||
-      row[2] === "Treatments"
-    ) {
-      // Dynamically handle variable amount of items
-      let key = row[2];
-      if (row[3]) {
-        key += "-" + row[3];
-      }
-      addItem(currentCategory, currentDiseaseName, key, row[4]);
-    }
-  }
-
-  // Convert the result object to a JSON string with indentation
-  return JSON.stringify(result, null, 2);
 };
 
 export const formatDate = (inputDate) => {
