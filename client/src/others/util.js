@@ -1,4 +1,4 @@
-import { toast } from "vuetify-sonner";
+import { toast } from "vue-sonner";
 import { countries } from "@/others/country-list";
 
 export const appName = "Quiz Builder";
