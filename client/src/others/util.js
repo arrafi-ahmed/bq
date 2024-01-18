@@ -22,71 +22,59 @@ export const convertArrayToText = (data, level) => {
 };
 
 export const convertTextToJson = (text) => {
+  let allData = []; // Initialize allData as an array, not an object
   let data = { Diseases_category: {} };
-  let disease_counter = 0;
+  let diseaseCounter = 0;
   let category = null;
-  let sub_category = null;
+  let subCategory = null;
   let disease = null;
-  const lines = text.split("\n");
+  let n = 0;
+  let lines = text.split("\n");
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const spaces = line.length - line.trimStart().length;
+    console.log(data);
+    let line = lines[i];
+    let spaces = line.length - line.trimLeft().length;
 
-    // const index = line.search(/\S/); // find the index of the first non-whitespace character
-    // const spaces = index - 1; // subtract 1 to get the number of spaces before
-    // console.log("line=", line);
-    // console.log(
-    //   "line.length=",
-    //   line.length,
-    //   "line.trimStart().length=",
-    //   line.trimStart().length
-    // );
-    // console.log("spaces=", spaces);
-    // console.log("-------");
-    console.log(83, spaces);
-    try {
-      if (spaces === 0 && line.trim() !== "") {
-        category = line;
-        data["Diseases_category"]["Disease_category_name"] = category;
-        // console.log(
-        //   0,
-        //   line,
-        //   category,
-        //   data["Diseases_category"]["Disease_category_name"]
-        // );
-      } else if (spaces === 1 && line.trim() !== "") {
-        disease_counter += 1;
-        disease = line.trim();
-        data["Diseases_category"][
-          "Disease-" + String.fromCharCode(64 + disease_counter)
-        ] = { Disease_Name: disease };
-      } else if (spaces === 2 && line.trim() !== "") {
-        sub_category = line.trim();
-        data["Diseases_category"][
-          "Disease-" + String.fromCharCode(64 + disease_counter)
-        ][sub_category] = {};
-      } else if (line.trim() !== "") {
-        let item_counter =
-          Object.keys(
-            data["Diseases_category"][
-              "Disease-" + String.fromCharCode(64 + disease_counter)
-            ][sub_category]
-          ).length + 1;
-        let item = line.trim();
-        data["Diseases_category"][
-          "Disease-" + String.fromCharCode(64 + disease_counter)
-        ][sub_category][
-          sub_category.slice(0, 4) +
-            "-" +
-            String.fromCharCode(64 + item_counter)
-        ] = item;
+    if (spaces === 0 && line.trim() !== "") {
+      diseaseCounter = 0;
+      n++;
+      if (n > 1) {
+        allData.push({ ...data }); // Use the spread operator to copy data
       }
-    } catch (err) {
-      throw new Error(`Error parsing Line ${i + 1}`);
+      category = line.trim();
+      data = { Diseases_category: { Disease_category_name: category } }; // Reset data for a new category
+    } else if (spaces === 1 && line.trim() !== "") {
+      diseaseCounter++;
+      disease = line.trim();
+      data.Diseases_category[
+        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+      ] = { Disease_Name: disease };
+    } else if (spaces === 2 && line.trim() !== "") {
+      subCategory = line.trim();
+      data.Diseases_category[
+        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+      ][subCategory] = {};
+    } else if (line.trim() !== "") {
+      let itemCounter =
+        Object.keys(
+          data.Diseases_category[
+            `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+          ][subCategory]
+        ).length + 1;
+      let item = line.trim();
+      data.Diseases_category[
+        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+      ][subCategory][
+        `${subCategory.slice(0, 3)}-${String.fromCharCode(64 + itemCounter)}`
+      ] = item;
     }
   }
-  return data;
+  // Append a copy of data to allData
+  if (n > 0) {
+    allData.push({ ...data });
+  }
+  return allData;
 };
 
 export const convertTextToArr = async (file) => {
