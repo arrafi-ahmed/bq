@@ -32,42 +32,45 @@ export const convertTextToJson = (text) => {
   let lines = text.split("\n");
 
   for (let i = 0; i < lines.length; i++) {
-    console.log(data);
     let line = lines[i];
     let spaces = line.length - line.trimLeft().length;
 
-    if (spaces === 0 && line.trim() !== "") {
-      diseaseCounter = 0;
-      n++;
-      if (n > 1) {
-        allData.push({ ...data }); // Use the spread operator to copy data
+    try {
+      if (spaces === 0 && line.trim() !== "") {
+        diseaseCounter = 0;
+        n++;
+        if (n > 1) {
+          allData.push({ ...data }); // Use the spread operator to copy data
+        }
+        category = line.trim();
+        data = { Diseases_category: { Disease_category_name: category } }; // Reset data for a new category
+      } else if (spaces === 1 && line.trim() !== "") {
+        diseaseCounter++;
+        disease = line.trim();
+        data.Diseases_category[
+          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+        ] = { Disease_Name: disease };
+      } else if (spaces === 2 && line.trim() !== "") {
+        subCategory = line.trim();
+        data.Diseases_category[
+          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+        ][subCategory] = {};
+      } else if (line.trim() !== "") {
+        let itemCounter =
+          Object.keys(
+            data.Diseases_category[
+              `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+            ][subCategory]
+          ).length + 1;
+        let item = line.trim();
+        data.Diseases_category[
+          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+        ][subCategory][
+          `${subCategory.slice(0, 3)}-${String.fromCharCode(64 + itemCounter)}`
+        ] = item;
       }
-      category = line.trim();
-      data = { Diseases_category: { Disease_category_name: category } }; // Reset data for a new category
-    } else if (spaces === 1 && line.trim() !== "") {
-      diseaseCounter++;
-      disease = line.trim();
-      data.Diseases_category[
-        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-      ] = { Disease_Name: disease };
-    } else if (spaces === 2 && line.trim() !== "") {
-      subCategory = line.trim();
-      data.Diseases_category[
-        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-      ][subCategory] = {};
-    } else if (line.trim() !== "") {
-      let itemCounter =
-        Object.keys(
-          data.Diseases_category[
-            `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-          ][subCategory]
-        ).length + 1;
-      let item = line.trim();
-      data.Diseases_category[
-        `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-      ][subCategory][
-        `${subCategory.slice(0, 3)}-${String.fromCharCode(64 + itemCounter)}`
-      ] = item;
+    } catch (err) {
+      throw new Error(`Error parsing Line ${i + 1}`);
     }
   }
   // Append a copy of data to allData
