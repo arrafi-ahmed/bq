@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store";
-import { toast } from "vuetify-sonner";
+import { toast } from "vue-sonner";
 
 const $axios = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

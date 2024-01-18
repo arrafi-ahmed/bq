@@ -1,7 +1,7 @@
 <script setup>
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { toast } from "vuetify-sonner";
+import { toast } from "vue-sonner";
 
 const store = useStore();
 const router = useRouter();
