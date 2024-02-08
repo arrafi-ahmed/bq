@@ -11,6 +11,11 @@ export const mutations = {
   setInputArr(state, payload) {
     state.inputArr = payload;
   },
+  setInputArrAtIndex(state, payload) {
+    console.log(3, payload);
+    state.inputArr[payload.line][payload.level] = payload.value;
+    console.log(4, state.inputArr);
+  },
   setLevel(state, payload) {
     state.level = payload;
   },

@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
 import {
   convertArrayToText,
@@ -11,6 +11,7 @@ import {
 const store = useStore();
 const data = computed(() => store.state.quiz.inputArr);
 const level = computed(() => store.state.quiz.level);
+
 const downloadJsonFile = () => {
   const convertedText = convertArrayToText(data.value, level.value);
   let convertedJson = null;
@@ -29,20 +30,91 @@ const downloadJsonFile = () => {
 };
 
 const modifyLevel = (rowIndex, action) => {
+  const prevLevel = level.value[rowIndex];
   store.commit("quiz/modifyLevel", { rowIndex, action });
+
+  store.commit("quiz/setInputArrAtIndex", {
+    value: data.value[rowIndex][prevLevel],
+    line: rowIndex,
+    level: level.value[rowIndex],
+  });
+  store.commit("quiz/setInputArrAtIndex", {
+    value: null,
+    line: rowIndex,
+    level: level.value[prevLevel],
+  });
+};
+const targetLevel = ref(2);
+const targetLevelOptions = [
+  { value: 0, title: 1 },
+  { value: 1, title: 2 },
+  { value: 2, title: 3 },
+  { value: 3, title: 4 },
+];
+
+const uniqueTargetLevelKeywords = computed(() => {
+  const allTargetLevelKeywords = [];
+
+  if (data.value?.length > 0) {
+    data.value.forEach((item, rowIndex) => {
+      const foundLevel = level.value[rowIndex];
+      if (Number(foundLevel) === targetLevel.value) {
+        allTargetLevelKeywords.push({
+          value: item[targetLevel.value] || item[level.value[rowIndex]],
+          line: rowIndex,
+        });
+      }
+    });
+  }
+  let map = new Map();
+  allTargetLevelKeywords.forEach((obj) => {
+    if (!map.has(obj.value)) {
+      map.set(obj.value, { value: obj.value, lines: [obj.line] });
+    } else {
+      map.get(obj.value).lines.push(obj.line);
+    }
+  });
+  return Array.from(map.values());
+});
+const editingKeyword = reactive({});
+
+const selectKeyword = (index) => {
+  Object.assign(editingKeyword, {
+    ...uniqueTargetLevelKeywords.value[index],
+  });
+};
+const checkLevelDialog = ref(false);
+const saveKeyword = () => {
+  editingKeyword.lines.forEach((line, index) => {
+    store.commit("quiz/setInputArrAtIndex", {
+      value: editingKeyword.value,
+      line,
+      level: targetLevel.value,
+    });
+  });
+  checkLevelDialog.value = !checkLevelDialog.value;
 };
 </script>
 
 <template>
   <v-container>
     <page-title title="Text Output" justify="space-between">
-      <v-btn
-        prepend-icon="mdi-arrow-down"
-        variant="text"
-        @click="downloadJsonFile"
-        >Download
-      </v-btn>
+      <div>
+        <v-btn
+          prepend-icon="mdi-magnify"
+          variant="text"
+          @click="checkLevelDialog = !checkLevelDialog"
+          >Check Level
+        </v-btn>
+        <v-btn
+          prepend-icon="mdi-arrow-down"
+          variant="text"
+          @click="downloadJsonFile"
+          >Download
+        </v-btn>
+      </div>
     </page-title>
+
     <v-row>
       <v-col v-if="data">
         <template v-for="(row, rowIndex) in data" :key="rowIndex">
@@ -93,6 +165,55 @@ const modifyLevel = (rowIndex, action) => {
       </v-col>
     </v-row>
   </v-container>
+  <v-dialog v-model="checkLevelDialog" max-width="700">
+    <v-card>
+      <v-card-title class="d-flex">
+        <span>Check keywords at level:</span>
+        <span
+          ><v-select
+            v-model="targetLevel"
+            :items="targetLevelOptions"
+            item-title="title"
+            item-value="value"
+            :max-width="30"
+            density="compact"
+            variant="outlined"
+            class="ms-2"
+          ></v-select
+        ></span>
+      </v-card-title>
+      <v-card-text>
+        <v-row justify="center">
+          <v-col>
+            <h4 class="mb-2">Select keyword to modify:</h4>
+            <v-chip-group filter>
+              <v-chip
+                v-for="(item, index) in uniqueTargetLevelKeywords"
+                :key="index"
+                @click="selectKeyword(index)"
+                :filter="true"
+                filter-icon="mdi-checkbox-marked-circle"
+                size="large"
+                class="v-label--clickable ms-2 mt-2"
+                >{{ item.value }}
+              </v-chip>
+            </v-chip-group>
+            <v-text-field
+              label="Replacing Keyword"
+              density="comfortable"
+              variant="outlined"
+              class="mt-6"
+              clearable
+              v-model="editingKeyword.value"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="saveKeyword">Apply</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>
