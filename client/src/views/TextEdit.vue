@@ -74,25 +74,42 @@ const uniqueTargetLevelKeywords = computed(() => {
       map.get(obj.value).lines.push(obj.line);
     }
   });
-  return Array.from(map.values());
+  return Array.from(map.values()).sort((a, b) =>
+    a.value.localeCompare(b.value)
+  );
 });
-const editingKeyword = reactive({});
+const editingKeywords = ref([]);
+const newEditingKeyword = ref("");
+const selectedChips = ref([]);
 
 const selectKeyword = (index) => {
-  Object.assign(editingKeyword, {
-    ...uniqueTargetLevelKeywords.value[index],
-  });
+  const foundIndex = editingKeywords.value.findIndex(
+    (item) => item.index == index
+  );
+  if (foundIndex === -1) {
+    editingKeywords.value.push({
+      ...uniqueTargetLevelKeywords.value[index],
+      index, // return Array.from(map.values());
+    });
+  } else {
+    editingKeywords.value.splice(foundIndex, 1);
+  }
 };
 const checkLevelDialog = ref(false);
+
 const saveKeyword = () => {
-  editingKeyword.lines.forEach((line, index) => {
-    store.commit("quiz/setInputArrAtIndex", {
-      value: editingKeyword.value,
-      line,
-      level: targetLevel.value,
+  editingKeywords.value.forEach((editingKeyword) => {
+    editingKeyword.lines.forEach((line, index) => {
+      store.commit("quiz/setInputArrAtIndex", {
+        value: newEditingKeyword.value,
+        line,
+        level: targetLevel.value,
+      });
     });
+    // checkLevelDialog.value = !checkLevelDialog.value;
   });
-  checkLevelDialog.value = !checkLevelDialog.value;
+  showToast("Keyword Saved!", "success");
+  editingKeywords.value = selectedChips.value = [];
 };
 </script>
 
@@ -186,11 +203,11 @@ const saveKeyword = () => {
         <v-row justify="center">
           <v-col>
             <h4 class="mb-2">Select keyword to modify:</h4>
-            <v-chip-group filter>
+            <v-chip-group filter multiple v-model="selectedChips">
               <v-chip
+                @click="selectKeyword(index)"
                 v-for="(item, index) in uniqueTargetLevelKeywords"
                 :key="index"
-                @click="selectKeyword(index)"
                 :filter="true"
                 filter-icon="mdi-checkbox-marked-circle"
                 size="large"
@@ -199,18 +216,19 @@ const saveKeyword = () => {
               </v-chip>
             </v-chip-group>
             <v-text-field
+              v-model="newEditingKeyword"
               label="Replacing Keyword"
               density="comfortable"
               variant="outlined"
               class="mt-6"
               clearable
-              v-model="editingKeyword.value"
             ></v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="saveKeyword">Apply</v-btn>
+        <v-btn @click="checkLevelDialog = !checkLevelDialog">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
