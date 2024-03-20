@@ -36,15 +36,17 @@ onMounted(() => {
 <template>
   <v-container class="fill-height">
     <v-row align="center" justify="center">
-      <v-col cols="12" md="5">
-        <page-title justify="center" title="Registration"></page-title>
+      <v-col cols="12" lg="6" md="6" sm="6">
         <v-card
-          class="pa-2 pa-md-5 my-2 my-md-5 d-block mx-auto"
+          class="mx-auto pa-2 my-2"
           color="grey-lighten-3"
           elevation="4"
-          max-width="500"
+          max-width="400"
         >
           <v-card-text>
+            <v-card-title class="text-center font-weight-bold">
+              Register
+            </v-card-title>
             <v-form
               ref="form"
               v-model="isFormValid"

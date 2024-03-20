@@ -15,7 +15,10 @@ const currentUser = computed(() => store.getters["user/getCurrentUser"]);
 
 const drawer = ref(false);
 
-const items = [{ title: "Home", to: { name: "home" } }];
+const items = [
+  { title: "Home", to: { name: "home" } },
+  { title: "Quiz List", to: { name: "quiz-list" } },
+];
 const getFirstName = computed(
   () => currentUser.value?.name?.split(" ")?.[0] || ""
 );
@@ -78,7 +81,7 @@ const getGreetings = computed(() => {
     </v-list>
     <template v-slot:append>
       <div class="ma-5">
-        <!--        <v-btn :to="{ name: 'signout' }" block color="primary">Signout</v-btn>-->
+        <v-btn :to="{ name: 'signout' }" block color="primary">Signout</v-btn>
       </div>
     </template>
   </v-navigation-drawer>

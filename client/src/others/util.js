@@ -8,22 +8,9 @@ export const isProd = import.meta.env.PROD;
 
 const reader = new FileReader();
 
-export const convertArrayToText = (data, level) => {
-  let text = "";
-  for (let row = 0; row < data.length; row++) {
-    for (let col = 0; col < data[row].length; col++) {
-      if (data[row][col] !== null) {
-        // Append the repeated tab character and the value to the text
-        text += "\t".repeat(level[row]) + data[row][col] + "\n";
-      }
-    }
-  }
-  return text;
-};
-
 export const convertTextToJson = (text) => {
   let allData = []; // Initialize allData as an array, not an object
-  let data = { Diseases_category: {} };
+  let data = { diseases_category: {} };
   let diseaseCounter = 0;
   let category = null;
   let subCategory = null;
@@ -43,31 +30,56 @@ export const convertTextToJson = (text) => {
           allData.push({ ...data }); // Use the spread operator to copy data
         }
         category = line.trim();
-        data = { Diseases_category: { Disease_category_name: category } }; // Reset data for a new category
+        data = { diseases_category: { disease_category_name: category } }; // Reset data for a new category
       } else if (spaces === 1 && line.trim() !== "") {
         diseaseCounter++;
         disease = line.trim();
-        data.Diseases_category[
-          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-        ] = { Disease_Name: disease };
+        data.diseases_category[
+          `disease-${String.fromCharCode(64 + diseaseCounter)}`
+        ] = { disease_name: disease };
       } else if (spaces === 2 && line.trim() !== "") {
-        subCategory = line.trim();
-        data.Diseases_category[
-          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+        subCategory = line.trim().toLowerCase();
+        data.diseases_category[
+          `disease-${String.fromCharCode(64 + diseaseCounter)}`
         ][subCategory] = {};
       } else if (line.trim() !== "") {
-        let itemCounter =
+        let level4Counter =
           Object.keys(
-            data.Diseases_category[
-              `Disease-${String.fromCharCode(64 + diseaseCounter)}`
+            data.diseases_category[
+              `disease-${String.fromCharCode(64 + diseaseCounter)}`
             ][subCategory]
           ).length + 1;
+
         let item = line.trim();
-        data.Diseases_category[
-          `Disease-${String.fromCharCode(64 + diseaseCounter)}`
-        ][subCategory][
-          `${subCategory.slice(0, 3)}-${String.fromCharCode(64 + itemCounter)}`
-        ] = item;
+
+        if (spaces === 3) {
+          data.diseases_category[
+            `disease-${String.fromCharCode(64 + diseaseCounter)}`
+          ][subCategory][
+            `${subCategory.slice(0, 3)}-${String.fromCharCode(
+              64 + level4Counter
+            )}`
+          ] = { name: item, details: {} };
+        } else {
+          let level5Counter =
+            Object.keys(
+              data.diseases_category[
+                `disease-${String.fromCharCode(64 + diseaseCounter)}`
+              ][subCategory][
+                `${subCategory.slice(0, 3)}-${String.fromCharCode(
+                  64 + (level4Counter - 1)
+                )}`
+              ]["details"]
+            ).length + 1;
+
+          data.diseases_category[
+            `disease-${String.fromCharCode(64 + diseaseCounter)}`
+          ][subCategory][
+            `${subCategory.slice(0, 3)}-${String.fromCharCode(
+              64 + (level4Counter - 1)
+            )}`
+          ]["details"][`details-${level5Counter}`] = item;
+        }
       }
     } catch (err) {
       throw new Error(`Error parsing Line ${i + 1}`);
@@ -95,7 +107,7 @@ export const convertTextToArr = async (file) => {
     let line = lines[i];
 
     const spaces = line.length - line.trimStart().length;
-    const row = [null, null, null, null];
+    const row = [null, null, null, null, null];
     line = line.trim();
     if (line !== "") {
       if (spaces === 0) {
@@ -106,12 +118,27 @@ export const convertTextToArr = async (file) => {
         row[2] = line;
       } else if (spaces === 3) {
         row[3] = line;
+      } else if (spaces === 4) {
+        row[4] = line;
       }
       data.push(row);
       level.push(spaces);
     }
   }
   return { data, level };
+};
+
+export const convertArrayToText = ({ data, level }) => {
+  let text = "";
+  for (let row = 0; row < data.length; row++) {
+    for (let col = 0; col < data[row].length; col++) {
+      if (data[row][col] !== null) {
+        // Append the repeated tab character and the value to the text
+        text += "\t".repeat(level[row]) + data[row][col] + "\n";
+      }
+    }
+  }
+  return text;
 };
 
 export const showToast = (msg, color) => {
@@ -126,6 +153,16 @@ export const showToast = (msg, color) => {
   } else {
     toast(msg);
   }
+};
+
+export const shuffleArray = (arr) => {
+  const shuffledArr = [...arr];
+  // Fisher-Yates (Knuth) shuffle algorithm
+  for (let i = shuffledArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArr[i], shuffledArr[j]] = [shuffledArr[j], shuffledArr[i]];
+  }
+  return shuffledArr;
 };
 
 export const formatDate = (inputDate) => {

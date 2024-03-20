@@ -1,5 +1,58 @@
 const fs = require("fs");
 const readline = require("readline");
+const { sql } = require("../db");
+
+exports.saveQuiz = async (payload, userId) => {
+  if (typeof payload.data === "string") {
+    payload.data = JSON.parse(payload.data);
+  }
+  if (typeof payload.level === "string") {
+    payload.level = JSON.parse(payload.level);
+  }
+  if (typeof payload.jsonData === "string") {
+    payload.jsonData = JSON.parse(payload.jsonData);
+  }
+  let upsertedQuiz = null;
+  if (payload.id) {
+    [upsertedQuiz] = await sql`
+            update quiz
+            set name=${payload.name},
+                level_question=${payload.levelQuestion},
+                level_answer=${payload.levelAnswer},
+                level_deepest=${payload.levelDeepest},
+                data=${payload.data}::json,
+                level=${payload.level}::json,
+                json_data=${payload.jsonData}::json,
+                user_id=${userId}
+            where id = ${payload.id}
+            returning *`;
+  } else {
+    [upsertedQuiz] = await sql`
+            insert into quiz
+            (name, level_question, level_answer, level_deepest, data, level, json_data, user_id)
+            values (${payload.name}, ${payload.levelQuestion}, ${payload.levelAnswer}, ${payload.levelDeepest},
+                    ${payload.levelDeepest}, ${payload.data}::json, ${payload.level}::json, ${payload.jsonData}::json,
+                    ${userId})
+            returning *`;
+  }
+
+  return !!upsertedQuiz;
+};
+
+exports.getQuizzes = async (payload) => {
+  return await sql`
+        select *
+        from quiz
+        where user_id = ${payload}`;
+};
+
+exports.getQuiz = async (payload) => {
+  const [result] = await sql`
+        select *
+        from quiz
+        where id = ${payload}`;
+  return result;
+};
 
 exports.parseTextToJson = async (inputTextFile) => {
   let data = { Diseases_category: {} };

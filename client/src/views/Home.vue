@@ -16,12 +16,12 @@ const handleTextUpload = (files) => {
 const handleClickConvert = () => {
   if (isValidTxtfile(inputFile.value)) {
     store.commit("setProgress", true);
+    store.commit("resetQuiz");
     convertTextToArr(inputFile.value)
-      .then(({ data, level }) => {
+      .then((quiz) => {
         // console.log(23, data, level);
-        store.commit("quiz/setInputArr", data);
-        store.commit("quiz/setLevel", level);
-        router.push("text-edit");
+        store.commit("quiz/setQuiz", quiz);
+        router.push({ name: "quiz-edit" });
       })
       .catch((error) => {
         console.error(error);
@@ -36,7 +36,7 @@ const handleClickConvert = () => {
 </script>
 <template>
   <v-container class="fill-height">
-    <page-title title="Upload File"></page-title>
+    <page-title title="Upload Quiz"></page-title>
     <v-row justify="center" align="center" class="fill-height">
       <v-col cols="12" md="6">
         <v-file-input

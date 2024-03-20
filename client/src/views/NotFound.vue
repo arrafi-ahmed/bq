@@ -14,7 +14,7 @@ const message = ref(route.params.message || "Looks like you're lost!");
         <h1>{{ status }}</h1>
         <div>{{ message }}</div>
         <v-btn
-          :to="{ name: 'landing' }"
+          :to="{ name: 'home' }"
           class="clickable"
           color="primary"
           size="small"

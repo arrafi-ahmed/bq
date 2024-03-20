@@ -7,7 +7,9 @@ const Signout = () => import("@/views/Signout.vue");
 const NotFound = () => import("@/views/NotFound.vue");
 const Register = () => import("@/views/Register.vue");
 const Home = () => import("@/views/Home.vue");
-const TextEdit = () => import("@/views/TextEdit.vue");
+const QuizList = () => import("@/views/QuizList.vue");
+const QuizEdit = () => import("@/views/QuizEdit.vue");
+const QuizPlay = () => import("@/views/QuizPlay.vue");
 
 const routes = [
   {
@@ -45,17 +47,35 @@ const routes = [
         name: "home",
         component: Home,
         meta: {
-          requiresAuth: false,
+          requiresAuth: true,
           title: "Home",
         },
       },
       {
-        path: "text-edit",
-        name: "text-edit",
-        component: TextEdit,
+        path: "quiz/list",
+        name: "quiz-list",
+        component: QuizList,
         meta: {
-          requiresAuth: false,
-          title: "Edit Text",
+          requiresAuth: true,
+          title: "Quiz List",
+        },
+      },
+      {
+        path: "quiz/edit/:id?",
+        name: "quiz-edit",
+        component: QuizEdit,
+        meta: {
+          requiresAuth: true,
+          title: "Quiz Edit",
+        },
+      },
+      {
+        path: "quiz/play/:id?",
+        name: "quiz-play",
+        component: QuizPlay,
+        meta: {
+          requiresAuth: true,
+          title: "Quiz Play",
         },
       },
     ],
