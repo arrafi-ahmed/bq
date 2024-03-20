@@ -14,6 +14,8 @@ const customCors = (req, res, next) => {
       if (urlwww) {
         allowedOrigins.push(urlwww);
       }
+      console.log(1, origin);
+      console.log(2, allowedOrigins);
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
