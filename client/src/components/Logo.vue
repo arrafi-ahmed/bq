@@ -1,6 +1,6 @@
 <script setup>
 import { useDisplay } from "vuetify";
-import { appName, getClientPublicImgUrl } from "@/others/util";
+import { appName } from "@/others/util";
 
 const { mobile } = useDisplay();
 const { customClass } = defineProps(["customClass"]);

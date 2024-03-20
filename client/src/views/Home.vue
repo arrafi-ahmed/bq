@@ -37,7 +37,7 @@ const handleClickConvert = () => {
 <template>
   <v-container class="fill-height">
     <page-title title="Upload Quiz"></page-title>
-    <v-row justify="center" align="center" class="fill-height">
+    <v-row align="center" class="fill-height" justify="center">
       <v-col cols="12" md="6">
         <v-file-input
           :rules="[
@@ -46,13 +46,13 @@ const handleClickConvert = () => {
                 isValidTxtfile(file)
               ) || 'Only .txt allowed!',
           ]"
+          clearable
           hide-details="auto"
           label="Upload text file containing quiz data"
-          variant="outlined"
           prepend-icon=""
           prepend-inner-icon="mdi-attachment"
           show-size
-          clearable
+          variant="outlined"
           @update:modelValue="handleTextUpload"
         >
           <template v-slot:selection="{ fileNames }">
@@ -67,8 +67,8 @@ const handleClickConvert = () => {
         <v-row class="mt-2" justify="center">
           <v-col cols="auto">
             <v-btn
-              variant="outlined"
               class="mx-auto"
+              variant="outlined"
               @click="handleClickConvert"
               >Convert
             </v-btn>

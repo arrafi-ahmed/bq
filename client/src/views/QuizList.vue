@@ -1,7 +1,6 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import { convertTextToArr, isValidTxtfile } from "@/others/util";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -17,7 +16,7 @@ onMounted(() => {
 <template>
   <v-container class="fill-height">
     <page-title title="Quiz List"></page-title>
-    <v-row justify="center" align="center" class="fill-height">
+    <v-row align="center" class="fill-height" justify="center">
       <v-col cols="12" md="6">
         <v-list v-if="quizzes.length > 0">
           <v-list-item
@@ -71,7 +70,7 @@ onMounted(() => {
             ></v-divider>
           </v-list-item>
         </v-list>
-        <v-alert v-else variant="outlined" type="warning" border="top">
+        <v-alert v-else border="top" type="warning" variant="outlined">
           No Data Available
         </v-alert>
       </v-col>

@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { isValidEmail, isValidPass, showApiQueryMsg } from "@/others/util";
-import PageTitle from "@/components/PageTitle.vue";
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();

@@ -35,26 +35,26 @@ watch(selectedDate, () => {
     <template v-slot:activator="{ props }">
       <v-text-field
         v-model="formattedSelectedDate"
-        v-bind="props"
+        :label="label"
+        :rules="rules"
+        :variant="variant"
         class="customClass"
         density="compact"
-        :rules="rules"
         hide-details="auto"
-        :variant="variant"
-        readonly
         prepend-inner-icon="mdi-calendar"
-        :label="label"
+        readonly
+        v-bind="props"
         @click:clear="selectedDate = null"
       />
     </template>
     <v-date-picker
       v-model="selectedDate"
+      :color="color"
       :height="mobile ? height : 'auto'"
       :width="mobile ? width : 'auto'"
-      @change="handleDateChange"
-      :color="color"
       show-adjacent-months
       title=""
+      @change="handleDateChange"
     />
   </v-menu>
 </template>

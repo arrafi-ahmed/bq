@@ -198,10 +198,10 @@ watch(
   <v-container class="fill-height quiz-play">
     <page-title title="Play Quiz"></page-title>
     <v-row
-      justify="center"
+      v-if="quizItemCurrent?.id"
       align="center"
       class="fill-height"
-      v-if="quizItemCurrent?.id"
+      justify="center"
     >
       <v-col cols="12" md="8">
         <v-row>
@@ -212,23 +212,14 @@ watch(
         <v-row>
           <v-col cols="12">
             <v-chip-group
+              v-model="selectedChips"
               filter
               multiple
-              v-model="selectedChips"
               variant="outlined"
             >
               <v-chip
-                @click="selectKeyword(item)"
                 v-for="(item, index) in shuffleAnswerAllOptions"
                 :key="index"
-                :filter="true"
-                :filter-icon="
-                  answerColor[index] == 'i'
-                    ? 'mdi-close-circle'
-                    : 'mdi-check-circle'
-                "
-                size="x-large"
-                class="ms-2 mt-2 chip-answer w-100"
                 :class="{ 'bg-missed': answerColor[index] === 'm' }"
                 :color="
                   answerColor[index] === 'i'
@@ -237,19 +228,28 @@ watch(
                     ? 'success'
                     : ''
                 "
+                :filter="true"
+                :filter-icon="
+                  answerColor[index] == 'i'
+                    ? 'mdi-close-circle'
+                    : 'mdi-check-circle'
+                "
+                class="ms-2 mt-2 chip-answer w-100"
                 label
+                size="x-large"
+                @click="selectKeyword(item)"
                 >{{ item }}
               </v-chip>
             </v-chip-group>
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="12" :class="{ 'border rounded': answerSubmitted }">
+          <v-col :class="{ 'border rounded': answerSubmitted }" cols="12">
             <v-row
               :justify="initialSubmissionDone ? 'space-around' : 'center'"
               align="center"
             >
-              <v-col cols="auto" :md="initialSubmissionDone ? 6 : null">
+              <v-col :md="initialSubmissionDone ? 6 : null" cols="auto">
                 <div class="text-center">
                   Remaining Play Count:
                   {{ preferredQuizPlayCount - quizItemsTraversed.length }}
@@ -257,8 +257,8 @@ watch(
                 <v-btn
                   v-if="!answerSubmitted"
                   block
-                  variant="outlined"
                   class="my-2"
+                  variant="outlined"
                   @click="submitAnswer"
                   >Submit answer
                 </v-btn>
@@ -267,9 +267,9 @@ watch(
                   :disabled="
                     preferredQuizPlayCount == quizItemsTraversed.length
                   "
-                  variant="outlined"
                   block
                   class="my-2"
+                  variant="outlined"
                   @click="next"
                   >Next
                 </v-btn>
@@ -280,13 +280,13 @@ watch(
                   "
                 >
                   <v-btn
-                    variant="outlined"
                     block
                     class="my-2"
+                    variant="outlined"
                     @click="repeatQuiz"
                     >Repeat quiz
                   </v-btn>
-                  <v-btn variant="outlined" block class="my-2" @click="newQuiz"
+                  <v-btn block class="my-2" variant="outlined" @click="newQuiz"
                     >Run new quiz
                   </v-btn>
                 </template>
@@ -334,7 +334,7 @@ watch(
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="12" md="6" class="text-center mb-6"></v-col>
+          <v-col class="text-center mb-6" cols="12" md="6"></v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -348,11 +348,11 @@ watch(
           v-model="preferredQuizPlayCount"
           :hint="`Max allowed count: ${quizItems.length}`"
           :persistent-hint="true"
-          label="Set Play Count"
+          clearable
           density="compact"
+          label="Set Play Count"
           type="number"
           variant="outlined"
-          clearable
         ></v-text-field>
       </v-card-text>
       <v-card-actions>

@@ -3,7 +3,6 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { isValidEmail } from "@/others/util";
-import PageTitle from "@/components/PageTitle.vue";
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();

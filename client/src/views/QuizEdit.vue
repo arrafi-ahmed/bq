@@ -231,34 +231,34 @@ onMounted(async () => {
             <div v-if="col">
               <v-row no-gutters>
                 <v-col
-                  cols="1"
                   :class="`level-${quiz.level[rowIndex] + 1}-color`"
                   class="ps-2"
+                  cols="1"
                   >{{ rowIndex + 1 }}
                 </v-col>
                 <v-col
-                  cols="11"
                   :class="`level-${quiz.level[rowIndex] + 1}`"
                   class="pe-1"
+                  cols="11"
                 >
                   <span class="d-flex justify-space-between align-center">
                     <span>{{ col }}</span>
                     <span class="d-flex">
                       <v-btn
-                        @click="modifyLevel(rowIndex, 'sub')"
                         :disabled="quiz.level[rowIndex] === 0"
                         icon="mdi-arrow-left"
                         size="x-small"
                         variant="text"
+                        @click="modifyLevel(rowIndex, 'sub')"
                       ></v-btn>
                       <v-btn
-                        @click="modifyLevel(rowIndex, 'add')"
                         :disabled="
                           quiz.level[rowIndex] === quizDetails.levelDeepest
                         "
                         icon="mdi-arrow-right"
                         size="x-small"
                         variant="text"
+                        @click="modifyLevel(rowIndex, 'add')"
                       ></v-btn>
                     </span>
                   </span>
@@ -270,7 +270,7 @@ onMounted(async () => {
         </template>
       </v-col>
       <v-col v-else>
-        <v-alert variant="outlined" type="warning" border="top">
+        <v-alert border="top" type="warning" variant="outlined">
           No Data Available
         </v-alert>
       </v-col>
@@ -286,34 +286,34 @@ onMounted(async () => {
             <v-select
               v-model="targetLevel"
               :items="targetLevelOptions"
+              :max-width="30"
+              class="ms-2"
+              density="compact"
               item-title="title"
               item-value="value"
-              :max-width="30"
-              density="compact"
-              variant="outlined"
-              class="ms-2"
               label="Check keywords at level"
+              variant="outlined"
             ></v-select>
             <h4 class="mb-2">Select keyword to modify:</h4>
-            <v-chip-group filter multiple v-model="selectedChips">
+            <v-chip-group v-model="selectedChips" filter multiple>
               <v-chip
-                @click="selectKeyword(index)"
                 v-for="(item, index) in uniqueTargetLevelKeywords"
                 :key="index"
                 :filter="true"
+                class="v-label--clickable ms-2 mt-2"
                 filter-icon="mdi-checkbox-marked-circle"
                 size="large"
-                class="v-label--clickable ms-2 mt-2"
+                @click="selectKeyword(index)"
                 >{{ item.value }}
               </v-chip>
             </v-chip-group>
             <v-text-field
               v-model="newEditingKeyword"
-              label="Replacing Keyword"
-              density="comfortable"
-              variant="outlined"
               class="mt-6"
               clearable
+              density="comfortable"
+              label="Replacing Keyword"
+              variant="outlined"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -331,40 +331,40 @@ onMounted(async () => {
       <v-card-text>
         <v-text-field
           v-model="quizDetails.name"
-          label="Quiz name"
-          density="compact"
-          variant="outlined"
           clearable
+          density="compact"
+          label="Quiz name"
+          variant="outlined"
         ></v-text-field>
         <v-select
           v-model="quizDetails.levelQuestion"
           :items="targetLevelOptions"
-          item-title="title"
-          item-value="value"
           :max-width="30"
           density="compact"
-          variant="outlined"
+          item-title="title"
+          item-value="value"
           label="Select question level"
+          variant="outlined"
         ></v-select>
         <v-select
           v-model="quizDetails.levelAnswer"
           :items="targetLevelOptions"
-          item-title="title"
-          item-value="value"
           :max-width="30"
           density="compact"
-          variant="outlined"
+          item-title="title"
+          item-value="value"
           label="Select answer level"
+          variant="outlined"
         ></v-select>
         <v-select
           v-model="quizDetails.levelDeepest"
           :items="targetLevelOptions"
-          item-title="title"
-          item-value="value"
           :max-width="30"
           density="compact"
-          variant="outlined"
+          item-title="title"
+          item-value="value"
           label="Select deepest level"
+          variant="outlined"
         ></v-select>
       </v-card-text>
       <v-card-actions>
