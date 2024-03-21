@@ -6,6 +6,12 @@
       "destination": "/api"
     }
   ],
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
