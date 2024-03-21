@@ -33,4 +33,4 @@ app.listen(port, (err) => {
 uncaughtErrHandler();
 app.use(globalErrHandler);
 
-module.exports = app;
+// module.exports = app;
