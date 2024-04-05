@@ -216,6 +216,7 @@ watch(
               filter
               multiple
               variant="outlined"
+              class="v-row justify-space-between"
             >
               <v-chip
                 v-for="(item, index) in shuffleAnswerAllOptions"
@@ -234,7 +235,8 @@ watch(
                     ? 'mdi-close-circle'
                     : 'mdi-check-circle'
                 "
-                class="ms-2 mt-2 chip-answer w-100"
+                :disabled="answerSubmitted"
+                class="ms-2 mt-2 chip-answer v-col v-col-5"
                 label
                 size="x-large"
                 @click="selectKeyword(item)"
@@ -373,6 +375,10 @@ watch(
 
 .bg-missed {
   color: rgb(42, 41, 41) !important;
-  background-color: rgb(76 175 80 / 12%) !important;
+  background-color: rgb(76 175 80 / 33%) !important;
+}
+
+.v-chip--disabled {
+  opacity: 0.8 !important;
 }
 </style>
