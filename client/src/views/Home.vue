@@ -1,26 +1,26 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import {convertTextToArr, isValidTxtfile} from "@/others/util";
-import {ref} from "vue";
-import {useStore} from "vuex";
-import {useRouter} from "vue-router";
+import { convertTextToArr, isValidTxtfile } from "@/others/util";
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
 const inputFile = ref(null);
 
 const handleTextUpload = (files) => {
-  inputFile.value = files[0];
+  inputFile.value = files;
 };
 
 const handleClickConvert = () => {
   if (isValidTxtfile(inputFile.value)) {
     store.commit("setProgress", true);
-    store.commit("resetQuiz");
+    store.commit("quiz/resetQuiz");
     convertTextToArr(inputFile.value)
       .then((quiz) => {
         store.commit("quiz/setQuiz", quiz);
-        router.push({name: "quiz-edit"});
+        router.push({ name: "quiz-edit" });
       })
       .catch((error) => {
         console.error(error);
@@ -42,7 +42,7 @@ const handleClickConvert = () => {
           :rules="[
             (v) =>
               (Array.isArray(v) ? v : [v]).every((file) =>
-                isValidTxtfile(file)
+                isValidTxtfile(file),
               ) || 'Only .txt allowed!',
           ]"
           clearable
@@ -69,7 +69,7 @@ const handleClickConvert = () => {
               class="mx-auto"
               variant="outlined"
               @click="handleClickConvert"
-            >Convert
+              >Convert
             </v-btn>
           </v-col>
         </v-row>

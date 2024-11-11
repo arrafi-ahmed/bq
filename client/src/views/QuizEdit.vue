@@ -1,9 +1,13 @@
 <script setup>
-import {useStore} from "vuex";
-import {computed, onMounted, reactive, ref, watch} from "vue";
+import { useStore } from "vuex";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
-import {convertArrayToText, convertTextToJson, showToast,} from "@/others/util";
-import {useRoute, useRouter} from "vue-router";
+import {
+  convertArrayToText,
+  convertTextToJson,
+  showToast,
+} from "@/others/util";
+import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
@@ -25,7 +29,7 @@ const downloadJsonFile = () => {
   const convertedJson = convertToJson();
   if (!convertedJson) return;
 
-  const blob = new Blob([convertedJson], {type: "text/html"});
+  const blob = new Blob([convertedJson], { type: "text/html" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "output.json";
@@ -35,7 +39,7 @@ const downloadJsonFile = () => {
 
 const modifyLevel = (rowIndex, action) => {
   const prevLevel = quiz.value.level[rowIndex];
-  store.commit("quiz/modifyLevel", {rowIndex, action});
+  store.commit("quiz/modifyLevel", { rowIndex, action });
 
   store.commit("quiz/setDataAtIndex", {
     value: quiz.value.data[rowIndex][prevLevel],
@@ -54,7 +58,7 @@ const targetLevelOptions = computed(() => {
   const arr = [];
   for (let i = 0; i < 5; i++) {
     //TODO: deepestLevel hardcoded
-    arr.push({value: i, title: i + 1});
+    arr.push({ value: i, title: i + 1 });
   }
   return arr;
 });
@@ -78,13 +82,13 @@ const uniqueTargetLevelKeywords = computed(() => {
   let map = new Map();
   allTargetLevelKeywords.forEach((obj) => {
     if (!map.has(obj.value)) {
-      map.set(obj.value, {value: obj.value, lines: [obj.line]});
+      map.set(obj.value, { value: obj.value, lines: [obj.line] });
     } else {
       map.get(obj.value).lines.push(obj.line);
     }
   });
   return Array.from(map.values()).sort((a, b) =>
-    a.value.localeCompare(b.value)
+    a.value.localeCompare(b.value),
   );
 });
 const editingKeywords = ref([]);
@@ -93,7 +97,7 @@ const selectedChips = ref([]);
 
 const selectKeyword = (index) => {
   const foundIndex = editingKeywords.value.findIndex(
-    (item) => item.index == index
+    (item) => item.index == index,
   );
   if (foundIndex === -1) {
     editingKeywords.value.push({
@@ -133,29 +137,33 @@ const quizDetails = reactive({
   levelDeepest: null,
 });
 
+// watch(
+//   () => quiz.value.name,
+//   (newVal) => {
+//     quizDetails.name = newVal;
+//   },
+// );
+// watch(
+//   () => quiz.value.levelQuestion,
+//   (newVal) => {
+//     quizDetails.levelQuestion = newVal;
+//   },
+// );
+// watch(
+//   () => quiz.value.levelAnswer,
+//   (newVal) => {
+//     quizDetails.levelAnswer = newVal;
+//   },
+// );
 watch(
-  () => quiz.value.name,
+  () => quiz.value,
   (newVal) => {
-    quizDetails.name = newVal;
-  }
-);
-watch(
-  () => quiz.value.levelQuestion,
-  (newVal) => {
-    quizDetails.levelQuestion = newVal;
-  }
-);
-watch(
-  () => quiz.value.levelAnswer,
-  (newVal) => {
-    quizDetails.levelAnswer = newVal;
-  }
-);
-watch(
-  () => quiz.value.levelDeepest,
-  (newVal) => {
-    quizDetails.levelDeepest = newVal;
-  }
+    quizDetails.name = newVal.name;
+    quizDetails.levelQuestion = newVal.levelQuestion;
+    quizDetails.levelAnswer = newVal.levelAnswer;
+    quizDetails.levelDeepest = Math.max(...newVal.level);
+  },
+  { deep: true },
 );
 
 const saveQuiz = () => {
@@ -174,7 +182,7 @@ const saveQuiz = () => {
   if (route.params.id) quizObj.id = route.params.id;
 
   store.dispatch("quiz/saveQuiz", quizObj).then((res) => {
-    router.push({name: "quiz-list"});
+    router.push({ name: "quiz-list" });
   });
 };
 
@@ -230,7 +238,7 @@ onMounted(async () => {
                   :class="`level-${quiz.level[rowIndex] + 1}-color`"
                   class="ps-2"
                   cols="1"
-                >{{ rowIndex + 1 }}
+                  >{{ rowIndex + 1 }}
                 </v-col>
                 <v-col
                   :class="`level-${quiz.level[rowIndex] + 1}`"
@@ -282,7 +290,6 @@ onMounted(async () => {
             <v-select
               v-model="targetLevel"
               :items="targetLevelOptions"
-              :max-width="30"
               class="ms-2"
               density="compact"
               item-title="title"
@@ -291,7 +298,7 @@ onMounted(async () => {
               variant="outlined"
             ></v-select>
             <h4 class="mb-2">Select keyword to modify:</h4>
-            <v-chip-group v-model="selectedChips" filter multiple>
+            <v-chip-group v-model="selectedChips" filter multiple column>
               <v-chip
                 v-for="(item, index) in uniqueTargetLevelKeywords"
                 :key="index"
@@ -300,7 +307,7 @@ onMounted(async () => {
                 filter-icon="mdi-checkbox-marked-circle"
                 size="large"
                 @click="selectKeyword(index)"
-              >{{ item.value }}
+                >{{ item.value }}
               </v-chip>
             </v-chip-group>
             <v-text-field
@@ -335,7 +342,6 @@ onMounted(async () => {
         <v-select
           v-model="quizDetails.levelQuestion"
           :items="targetLevelOptions"
-          :max-width="30"
           density="compact"
           item-title="title"
           item-value="value"
@@ -345,7 +351,6 @@ onMounted(async () => {
         <v-select
           v-model="quizDetails.levelAnswer"
           :items="targetLevelOptions"
-          :max-width="30"
           density="compact"
           item-title="title"
           item-value="value"
@@ -355,7 +360,6 @@ onMounted(async () => {
         <v-select
           v-model="quizDetails.levelDeepest"
           :items="targetLevelOptions"
-          :max-width="30"
           density="compact"
           item-title="title"
           item-value="value"

@@ -1,5 +1,5 @@
-import {toast} from "vue-sonner";
-import {countries} from "@/others/country-list";
+import { toast } from "vue-sonner";
+import { countries } from "@/others/country-list";
 
 export const appName = "Quiz Builder";
 export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -10,7 +10,7 @@ const reader = new FileReader();
 
 export const convertTextToJson = (text) => {
   let allData = []; // Initialize allData as an array, not an object
-  let data = {diseases_category: {}};
+  let data = { diseases_category: {} };
   let diseaseCounter = 0;
   let category = null;
   let subCategory = null;
@@ -27,27 +27,27 @@ export const convertTextToJson = (text) => {
         diseaseCounter = 0;
         n++;
         if (n > 1) {
-          allData.push({...data}); // Use the spread operator to copy data
+          allData.push({ ...data }); // Use the spread operator to copy data
         }
         category = line.trim();
-        data = {diseases_category: {disease_category_name: category}}; // Reset data for a new category
+        data = { diseases_category: { disease_category_name: category } }; // Reset data for a new category
       } else if (spaces === 1 && line.trim() !== "") {
         diseaseCounter++;
         disease = line.trim();
         data.diseases_category[
           `disease-${String.fromCharCode(64 + diseaseCounter)}`
-          ] = {disease_name: disease};
+        ] = { disease_name: disease };
       } else if (spaces === 2 && line.trim() !== "") {
         subCategory = line.trim().toLowerCase();
         data.diseases_category[
           `disease-${String.fromCharCode(64 + diseaseCounter)}`
-          ][subCategory] = {};
+        ][subCategory] = {};
       } else if (line.trim() !== "") {
         let level4Counter =
           Object.keys(
             data.diseases_category[
               `disease-${String.fromCharCode(64 + diseaseCounter)}`
-              ][subCategory]
+            ][subCategory],
           ).length + 1;
 
         let item = line.trim();
@@ -55,30 +55,30 @@ export const convertTextToJson = (text) => {
         if (spaces === 3) {
           data.diseases_category[
             `disease-${String.fromCharCode(64 + diseaseCounter)}`
-            ][subCategory][
+          ][subCategory][
             `${subCategory.slice(0, 3)}-${String.fromCharCode(
-              64 + level4Counter
+              64 + level4Counter,
             )}`
-            ] = {name: item, details: {}};
+          ] = { name: item, details: {} };
         } else {
           let level5Counter =
             Object.keys(
               data.diseases_category[
                 `disease-${String.fromCharCode(64 + diseaseCounter)}`
-                ][subCategory][
+              ][subCategory][
                 `${subCategory.slice(0, 3)}-${String.fromCharCode(
-                  64 + (level4Counter - 1)
+                  64 + (level4Counter - 1),
                 )}`
-                ]["details"]
+              ]["details"],
             ).length + 1;
 
           data.diseases_category[
             `disease-${String.fromCharCode(64 + diseaseCounter)}`
-            ][subCategory][
+          ][subCategory][
             `${subCategory.slice(0, 3)}-${String.fromCharCode(
-              64 + (level4Counter - 1)
+              64 + (level4Counter - 1),
             )}`
-            ]["details"][`details-${level5Counter}`] = item;
+          ]["details"][`details-${level5Counter}`] = item;
         }
       }
     } catch (err) {
@@ -87,7 +87,7 @@ export const convertTextToJson = (text) => {
   }
   // Append a copy of data to allData
   if (n > 0) {
-    allData.push({...data});
+    allData.push({ ...data });
   }
   return allData;
 };
@@ -125,10 +125,10 @@ export const convertTextToArr = async (file) => {
       level.push(spaces);
     }
   }
-  return {data, level};
+  return { data, level };
 };
 
-export const convertArrayToText = ({data, level}) => {
+export const convertArrayToText = ({ data, level }) => {
   let text = "";
   for (let row = 0; row < data.length; row++) {
     for (let col = 0; col < data[row].length; col++) {
@@ -216,7 +216,7 @@ export const getToLink = (item) => {
     const paramVal = item.to.params[paramKey];
     return {
       name: item.to.name,
-      params: {[paramKey]: paramVal},
+      params: { [paramKey]: paramVal },
     };
   }
   return item.to;
@@ -252,12 +252,12 @@ export const isValidEmail = (email) => {
 
 export const isValidImage = (file) => {
   const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-  return allowedTypes.includes(file.type);
+  return allowedTypes.includes(file?.type);
 };
 
 export const isValidTxtfile = (file) => {
   const allowedTypes = ["text/plain"];
-  return allowedTypes.includes(file.type);
+  return allowedTypes.includes(file?.type);
 };
 
 export const isValidPass = [
@@ -269,14 +269,13 @@ export const isValidPass = [
 export const showApiQueryMsg = (color = "blue") => {
   if (localStorage.hasOwnProperty("apiQueryMsg")) {
     toast(localStorage.getItem("apiQueryMsg"), {
-      cardProps: {color},
+      cardProps: { color },
       action: {
         label: "Close",
         buttonProps: {
           color: "white",
         },
-        onClick() {
-        },
+        onClick() {},
       },
     });
     localStorage.removeItem("apiQueryMsg");
@@ -284,11 +283,11 @@ export const showApiQueryMsg = (color = "blue") => {
 };
 
 export const input_fields = [
-  {id: 0, title: "Short answer"},
-  {id: 1, title: "Paragraph"},
-  {id: 2, title: "Multiple choice"},
-  {id: 3, title: "Checkboxes"},
-  {id: 4, title: "Dropdown"},
+  { id: 0, title: "Short answer" },
+  { id: 1, title: "Paragraph" },
+  { id: 2, title: "Multiple choice" },
+  { id: 3, title: "Checkboxes" },
+  { id: 4, title: "Dropdown" },
 ];
 
 export const getCountryList = (filterName) => {
@@ -300,9 +299,9 @@ export const getCurrencySymbol = (currencyCode, type) => {
   const currencyCodeLower = currencyCode.toString().toLowerCase();
 
   const currencyMap = {
-    usd: {icon: "mdi-currency-usd", symbol: "$"},
-    gbp: {icon: "mdi-currency-gbp", symbol: "£"},
-    eur: {icon: "mdi-currency-eur", symbol: "€"},
+    usd: { icon: "mdi-currency-usd", symbol: "$" },
+    gbp: { icon: "mdi-currency-gbp", symbol: "£" },
+    eur: { icon: "mdi-currency-eur", symbol: "€" },
   };
 
   return currencyMap[currencyCodeLower][type];

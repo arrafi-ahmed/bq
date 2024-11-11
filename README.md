@@ -11,4 +11,5 @@ Quick step-by-step guide to get you up and running:
    ```
    This will launch the app locally at `http://localhost:3000/`. If it doesn’t load the first time, just try refreshing the page.
 
-Once it’s deployed, you’ll be able to register, log in, and start using the app.
+Once it’s deployed, you’ll be able to register, log in, and start using the app. For testing purpose use this as 
+quiz input file: https://github.com/arrafi-ahmed/quiz-builder/blob/main/input_sample.txt

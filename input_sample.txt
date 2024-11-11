@@ -1,0 +1,135 @@
+
+Upper respiratory diseases
+	Pharyngitis acuta
+		Definition
+			Acute infection in the pharynx and tonsils
+		Symptoms
+			Chills
+			Fever
+			Swallowing pain
+			Irritation in the throat
+			Feeling of illness
+		Objective
+			Diffuse redness of the palate and tonsils
+			Whitish or yellowish deposits on the tonsils
+			Tender lymph node tumor on the neck
+		Treatment
+			Penicillin MIE x 3
+			If Penicillin allergy -  clarithromycin  500  mg  x  2
+	
+	Fusobacteriosis
+		Definition
+			It is about disseminated infection with Fusobacterium species, which is part of the normal anaerobic oral flora.
+		Symptoms
+			Pharyngitis/tonsillitis
+			Fever 
+			Chills
+			Swelling and pain corresponding to one lateral part of the neck
+			Shortness of breath
+			Cough
+			Joint pain
+		Objective
+			Unilateral swelling and tenderness on one side of the neck
+			Septic shock
+			Pneumonic murmurs during lung stethoscopy
+		Paraclinical
+			Leukocytosis
+			↑ CRP
+			Mild hyperbilirubinemia
+			Mild thrombocytopenia
+			Chest x-ray: scattered lung infiltrates, abscesses and pleural collections
+			CT/MR scan: involvement of the parapharyngeal space and internal jugular vein
+			Positive blood culture
+			Necrotizing mediastinitis (rare but serious complication)
+		Treatment
+			Penicillin 5 MIE iv x 4 +  metronidazol 500 mg iv x 3
+			If Penicillin allergy -  clindamycin 600 mg x 4 iv
+
+	Epiglottitis acuta 
+		Definition
+			A septic abscess infection, primarily localized to the epiglottis. 
+			It is almost always caused by H. Influenzae type B. 
+			Seen in children between 3-6 years.
+		Symptoms
+			Fever
+			Affected general condition
+			Swallowing pain
+			Difficulty breathing
+		Objective
+			Strongly red, tense and swollen epiglottis
+		Treatment
+			securing free airways and antibiotics with cephalosporin, e.g. cefuroxime.
+
+	Pseudocroup  
+		Definition
+			An acute viral mucosal affection with inspiratory stridor due to subglottic oedema. 
+			Due to viral infection (most often parainfluenza virus) and is seen in young children aged ½-4 years.
+		Symptoms
+			Cough
+			Nasal discharge
+			Fever
+			Accelerated breathing
+			Barking cough (sea lion-like)
+		Objective
+			Edema of the vocal cords with accompanying hoarseness
+			Edema of the larynx just below the vocal cords
+			Inspiratory contractions above the clavicle in the jugulum, in the epigastrium and between the costae
+			Wheezing, stridor, especially during inspiration
+			Cyanosis due to anoxia
+			Hypotonia of the musculature due to exhaustion
+		Treatment
+			It is important to make the child calm down. 
+			The edema usually decreases within a few hours if the child sitting up, preferably in a well-ventilated room with cool air. 
+			Cyanosis attacks and stridor are almost always reason for admission. 
+			In the worst case, treat with adrenaline inhalations and inhaled steroids. 
+			Systemic glucocorticoid is indicated in the most severe cases, and it is only extremely rarely necessary to intubate. Antibiotics are ineffective. The prognosis is good.
+
+	Influenza
+		Definition
+			Acute respiratory infection caused by influenza virus belonging to the orthomyxovirus family, as in Denmark circulates every year to a greater or lesser extent from November to March, also called the flu season.
+			The genome consists of 8 segments (10 genes) of single-stranded RNA.	
+			There are 3 human pathogenic influenza viruses based on capsid antigen: Type A, type B and type C
+		Symptoms
+			Sudden onset of chills
+			Fever up to 39-40 °C
+			Severe headache
+			Dry cough
+			Pain with eye movements
+			Dedolations
+			Hoarseness
+			General muscle pain
+		Objective 
+			redness is found in the fauces.
+		Paraclinical
+			Neutropenia
+			↑ CRP
+			Virus in nasal secretion by PCR
+		Treatment
+			Neuramidase inhibitor
+			Oseltamivir shortens the course of the disease by 1-2 days, if treatment is started within 48 hours of the onset of symptoms. It is effective against both A and B flu. 75 mg x 2 are given for 5 days.
+
+	Mononucleosis infectiosa 
+		Definition
+			Caused by the Epstein-Barr virus.
+		Symptoms
+			Fatigue
+			Headache
+			General feeling of illness
+			Muscle pain
+			Sweating
+			Fever
+			Swallowing pain
+			Generalized lymph node tumor
+		Objective
+			Tonsillitis with thick white deposits
+			Glandular tumor
+			Hepato-splenomegaly (50-75%)
+			Clinical jaundice (about 5%)
+		Paraclinical
+			Leukocytosis with lymphocytosis
+			↑ Liver count
+			Moderate ↑ or normal bilirubin
+			Thrombocytopenia
+			Heterophilic antibodies by rapid test (monospot, EMNI test) – 40% in 1st week and 85% in 3rd week
+		Treatment
+			The treatment is aciclovir, otherwise symptomatic
