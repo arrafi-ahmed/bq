@@ -1,5 +1,5 @@
 // Composables
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 const Default = () => import("@/layouts/default/Default.vue");
 const Signin = () => import("@/views/Signin.vue");
@@ -82,7 +82,7 @@ const routes = [
   },
   {
     path: "",
-    redirect: { name: "home" },
+    redirect: {name: "home"},
   },
   {
     path: "/not-found/:status?/:message?",
@@ -100,7 +100,7 @@ const routes = [
     path: "/:catchAll(.*)",
     redirect: {
       name: "notFound",
-      params: { status: 404, message: "Looks like you're lost!" },
+      params: {status: 404, message: "Looks like you're lost!"},
     },
   },
 ];

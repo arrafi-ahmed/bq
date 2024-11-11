@@ -3,30 +3,31 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "setup": "yarn install && yarn upgrade",
-    "dev": "vite --host",
+    "setup": "npm install && npm update --save",
+    "clear-cache": "rm -rf node_modules/.cache node_modules/.vite",
+    "dev": "npm run clear-cache && vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint  --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
-    "axios": "^1.5.0",
-    "core-js": "^3.29.0",
-    "roboto-fontface": "*",
+    "axios": "^1.7.7",
+    "core-js": "^3.39.0",
+    "roboto-fontface": "^0.10.0",
     "vue": "^3.2.0",
-    "vue-router": "^4.0.0",
-    "vue-sonner": "^1.0.2",
-    "vuetify": "^3.0.0",
+    "vue-router": "^4.4.5",
+    "vue-sonner": "^1.2.5",
+    "vuetify": "^3.7.4",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "eslint": "^8.37.0",
-    "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.60.0",
-    "unplugin-fonts": "^1.0.3",
-    "vite": "^4.2.0",
-    "vite-plugin-vuetify": "^1.0.0"
+    "@vitejs/plugin-vue": "^4.6.2",
+    "eslint": "^8.57.1",
+    "eslint-plugin-vue": "^9.30.0",
+    "sass": "^1.80.6",
+    "unplugin-fonts": "^1.1.1",
+    "vite": "^4.5.5",
+    "vite-plugin-vuetify": "^1.0.2"
   }
 }

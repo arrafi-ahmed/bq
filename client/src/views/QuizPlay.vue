@@ -1,9 +1,9 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import { computed, onMounted, reactive, ref, watch } from "vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
-import { shuffleArray } from "@/others/util";
+import {computed, onMounted, reactive, ref, watch} from "vue";
+import {useStore} from "vuex";
+import {useRoute, useRouter} from "vue-router";
+import {shuffleArray} from "@/others/util";
 
 const store = useStore();
 const route = useRoute();
@@ -177,7 +177,7 @@ const repeatQuiz = () => {
   assignQuizItemCurrent();
 };
 const newQuiz = () => {
-  router.push({ name: "quiz-list" });
+  router.push({name: "quiz-list"});
 };
 
 onMounted(async () => {
@@ -213,10 +213,10 @@ watch(
           <v-col cols="12">
             <v-chip-group
               v-model="selectedChips"
+              class="v-row justify-space-between"
               filter
               multiple
               variant="outlined"
-              class="v-row justify-space-between"
             >
               <v-chip
                 v-for="(item, index) in shuffleAnswerAllOptions"
@@ -229,18 +229,18 @@ watch(
                     ? 'success'
                     : ''
                 "
+                :disabled="answerSubmitted"
                 :filter="true"
                 :filter-icon="
                   answerColor[index] == 'i'
                     ? 'mdi-close-circle'
                     : 'mdi-check-circle'
                 "
-                :disabled="answerSubmitted"
                 class="ms-2 mt-2 chip-answer v-col v-col-5"
                 label
                 size="x-large"
                 @click="selectKeyword(item)"
-                >{{ item }}
+              >{{ item }}
               </v-chip>
             </v-chip-group>
           </v-col>
@@ -262,7 +262,7 @@ watch(
                   class="my-2"
                   variant="outlined"
                   @click="submitAnswer"
-                  >Submit answer
+                >Submit answer
                 </v-btn>
                 <v-btn
                   v-else
@@ -273,7 +273,7 @@ watch(
                   class="my-2"
                   variant="outlined"
                   @click="next"
-                  >Next
+                >Next
                 </v-btn>
                 <template
                   v-if="
@@ -286,49 +286,49 @@ watch(
                     class="my-2"
                     variant="outlined"
                     @click="repeatQuiz"
-                    >Repeat quiz
+                  >Repeat quiz
                   </v-btn>
                   <v-btn block class="my-2" variant="outlined" @click="newQuiz"
-                    >Run new quiz
+                  >Run new quiz
                   </v-btn>
                 </template>
               </v-col>
               <v-col v-if="initialSubmissionDone">
                 <v-table density="compact">
                   <tbody>
-                    <tr>
-                      <td>Correct Answers: {{ correctAnswer.length }}</td>
-                      <td class="text-green">
-                        +
-                        {{ correctAnswer.length * 10 }} points
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Incorrect Answers: {{ inCorrectAnswer.length }}</td>
-                      <td class="text-red">
-                        -
-                        {{ inCorrectAnswer.length * 5 }} points
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Missed Answers: {{ missedAnswer.length }}</td>
-                      <td class="text-red">
-                        -
-                        {{ missedAnswer.length * 5 }} points
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Total points for this round</td>
-                      <td :class="pointsRound > 0 ? 'text-green' : 'text-red'">
-                        <b>{{ pointsRound }}</b> points
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Total points for this game</td>
-                      <td :class="pointsGame > 0 ? 'text-green' : 'text-red'">
-                        <b>{{ pointsGame }}</b> points
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>Correct Answers: {{ correctAnswer.length }}</td>
+                    <td class="text-green">
+                      +
+                      {{ correctAnswer.length * 10 }} points
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Incorrect Answers: {{ inCorrectAnswer.length }}</td>
+                    <td class="text-red">
+                      -
+                      {{ inCorrectAnswer.length * 5 }} points
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Missed Answers: {{ missedAnswer.length }}</td>
+                    <td class="text-red">
+                      -
+                      {{ missedAnswer.length * 5 }} points
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Total points for this round</td>
+                    <td :class="pointsRound > 0 ? 'text-green' : 'text-red'">
+                      <b>{{ pointsRound }}</b> points
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Total points for this game</td>
+                    <td :class="pointsGame > 0 ? 'text-green' : 'text-red'">
+                      <b>{{ pointsGame }}</b> points
+                    </td>
+                  </tr>
                   </tbody>
                 </v-table>
               </v-col>
@@ -359,7 +359,7 @@ watch(
       </v-card-text>
       <v-card-actions>
         <v-btn @click="preferredPlayCountDialog = !preferredPlayCountDialog"
-          >OK
+        >OK
         </v-btn>
       </v-card-actions>
     </v-card>

@@ -1,10 +1,10 @@
 <script setup>
-import { Toaster } from "vue-sonner";
+import {Toaster} from "vue-sonner";
 import ProgressLoader from "@/components/ProgressLoader.vue";
 
-import { watch } from "vue";
-import { useRoute } from "vue-router";
-import { appName } from "@/others/util";
+import {watch} from "vue";
+import {useRoute} from "vue-router";
+import {appName} from "@/others/util";
 
 const route = useRoute();
 
@@ -14,9 +14,9 @@ watch(route, (to) => {
 });
 </script>
 <template>
-  <progress-loader />
-  <Toaster :expand="true" closeButton position="bottom-left" rich-colors />
-  <router-view />
+  <progress-loader/>
+  <Toaster :expand="true" closeButton position="bottom-left" rich-colors/>
+  <router-view/>
 </template>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@100;300;400;500;700;900&display=swap");

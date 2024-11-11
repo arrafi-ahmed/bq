@@ -13,9 +13,9 @@ export const mutations = {
     state.token = payload;
   },
   setCurrentUser(state, payload) {
-    state.currentUser = { ...state.currentUser, ...payload };
+    state.currentUser = {...state.currentUser, ...payload};
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    currentUser = { ...currentUser, ...payload };
+    currentUser = {...currentUser, ...payload};
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   },
   removeToken(state) {
@@ -29,7 +29,7 @@ export const mutations = {
 };
 
 export const actions = {
-  signin({ commit }, request) {
+  signin({commit}, request) {
     return new Promise((resolve, reject) => {
       $axios
         .post("/api/user/signin", request)
@@ -43,14 +43,14 @@ export const actions = {
         });
     });
   },
-  signout({ commit }) {
+  signout({commit}) {
     return new Promise((resolve, reject) => {
       commit("removeToken");
       commit("removeCurrentUser");
       resolve();
     });
   },
-  register({ commit }, request) {
+  register({commit}, request) {
     return new Promise((resolve, reject) => {
       $axios
         .post("/api/user/register", request)

@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import { isValidEmail, isValidPass, showApiQueryMsg } from "@/others/util";
-import { useDisplay } from "vuetify";
+import {onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
+import {isValidEmail, isValidPass, showApiQueryMsg} from "@/others/util";
+import {useDisplay} from "vuetify";
 
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const router = useRouter();
 const fullName = ref(null);
 const email = ref(null);
@@ -122,7 +122,7 @@ onMounted(() => {
                 class="mt-2"
                 color="primary"
                 @click="registerUser"
-                >Register
+              >Register
               </v-btn>
               <div
                 class="clickable mt-3 text-center text-blue"

@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store";
-import { toast } from "vue-sonner";
+import {toast} from "vue-sonner";
 
 const $axios = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -27,13 +27,14 @@ $axios.interceptors.response.use(
         color = "error";
       }
       toast(response.data.msg, {
-        cardProps: { color },
+        cardProps: {color},
         action: {
           label: "Close",
           buttonProps: {
             color: "white",
           },
-          onClick() {},
+          onClick() {
+          },
         },
       });
     }
@@ -43,13 +44,14 @@ $axios.interceptors.response.use(
     store.commit("setProgress", false);
     if (err.response?.data?.msg) {
       toast(err.response?.data?.msg, {
-        cardProps: { color: "error" },
+        cardProps: {color: "error"},
         action: {
           label: "Close",
           buttonProps: {
             color: "white",
           },
-          onClick() {},
+          onClick() {
+          },
         },
       });
     }

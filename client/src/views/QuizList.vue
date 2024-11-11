@@ -1,8 +1,8 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import {computed, onMounted} from "vue";
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
 const store = useStore();
 const router = useRouter();

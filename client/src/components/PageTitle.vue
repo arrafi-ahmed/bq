@@ -1,9 +1,9 @@
 <script setup>
-const { title, subTitle, justify, customClass } = defineProps({
-  title: { type: String },
-  subTitle: { type: String },
-  justify: { type: String, default: "space-between" },
-  customClass: { type: String },
+const {title, subTitle, justify, customClass} = defineProps({
+  title: {type: String},
+  subTitle: {type: String},
+  justify: {type: String, default: "space-between"},
+  customClass: {type: String},
 });
 </script>
 

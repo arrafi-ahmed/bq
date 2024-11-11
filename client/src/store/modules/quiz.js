@@ -13,7 +13,7 @@ const quizInit = {
 
 export const state = {
   quizzes: [],
-  quiz: { ...quizInit },
+  quiz: {...quizInit},
 };
 
 export const mutations = {
@@ -24,7 +24,7 @@ export const mutations = {
     state.quiz = payload;
   },
   resetQuiz(state) {
-    state.quiz = { ...quizInit };
+    state.quiz = {...quizInit};
   },
   setDataAtIndex(state, payload) {
     state.quiz.data[payload.line][payload.level] = payload.value;
@@ -42,7 +42,7 @@ export const mutations = {
 };
 
 export const actions = {
-  saveQuiz({ commit }, request) {
+  saveQuiz({commit}, request) {
     return new Promise((resolve, reject) => {
       $axios
         .post("/api/quiz/saveQuiz", request)
@@ -54,7 +54,7 @@ export const actions = {
         });
     });
   },
-  setQuizzes({ commit }) {
+  setQuizzes({commit}) {
     return new Promise((resolve, reject) => {
       $axios
         .get("/api/quiz/getQuizzes")
@@ -67,10 +67,10 @@ export const actions = {
         });
     });
   },
-  setQuiz({ commit }, request) {
+  setQuiz({commit}, request) {
     return new Promise((resolve, reject) => {
       $axios
-        .get("/api/quiz/getQuiz", { params: { id: request } })
+        .get("/api/quiz/getQuiz", {params: {id: request}})
         .then((response) => {
           commit("setQuiz", response.data.payload);
           resolve(response.data.payload);

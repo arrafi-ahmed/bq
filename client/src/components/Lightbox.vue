@@ -1,8 +1,8 @@
 <script setup>
-import { getEventImageUrl } from "@/others/util";
-import { ref } from "vue";
+import {getEventImageUrl} from "@/others/util";
+import {ref} from "vue";
 
-const { imgSrc, aspectRatio } = defineProps(["imgSrc", "aspectRatio"]);
+const {imgSrc, aspectRatio} = defineProps(["imgSrc", "aspectRatio"]);
 const dialog = ref(false);
 const fullSize = ref(false);
 

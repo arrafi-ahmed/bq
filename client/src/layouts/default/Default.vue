@@ -6,8 +6,8 @@ import DefaultFooter from "./Footer.vue";
 
 <template>
   <v-app>
-    <default-bar />
-    <default-view />
-    <default-footer />
+    <default-bar/>
+    <default-view/>
+    <default-footer/>
   </v-app>
 </template>

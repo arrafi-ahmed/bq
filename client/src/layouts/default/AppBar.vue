@@ -1,14 +1,14 @@
 <script setup>
 import Logo from "@/components/Logo.vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { computed, ref } from "vue";
-import { getToLink } from "@/others/util";
-import { useDisplay } from "vuetify";
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
+import {computed, ref} from "vue";
+import {getToLink} from "@/others/util";
+import {useDisplay} from "vuetify";
 import UserAvatar from "@/components/UserAvatar.vue";
 
 const store = useStore();
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const router = useRouter();
 const signedin = computed(() => store.getters["user/signedin"]);
 const currentUser = computed(() => store.getters["user/getCurrentUser"]);
@@ -16,8 +16,8 @@ const currentUser = computed(() => store.getters["user/getCurrentUser"]);
 const drawer = ref(false);
 
 const items = [
-  { title: "Home", to: { name: "home" } },
-  { title: "Quiz List", to: { name: "quiz-list" } },
+  {title: "Home", to: {name: "home"}},
+  {title: "Quiz List", to: {name: "quiz-list"}},
 ];
 const getFirstName = computed(
   () => currentUser.value?.name?.split(" ")?.[0] || ""
@@ -30,7 +30,7 @@ const getGreetings = computed(() => {
 
 <template>
   <v-app-bar :order="1" class="px-2 px-md-5" color="grey-lighten-3" dense flat>
-    <logo custom-class="clickable" @click="router.push({ name: 'home' })" />
+    <logo custom-class="clickable" @click="router.push({ name: 'home' })"/>
 
     <template v-slot:append>
       <v-btn

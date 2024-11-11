@@ -2,7 +2,7 @@
 <template>
   <v-main>
     <div class="limit-max-width-xl fill-height">
-      <router-view />
+      <router-view/>
     </div>
   </v-main>
 </template>

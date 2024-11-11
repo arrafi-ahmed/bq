@@ -1,11 +1,11 @@
 <script setup>
-import { computed, defineEmits, defineProps, ref, watch } from "vue";
-import { useDisplay } from "vuetify";
-import { formatDate } from "@/others/util";
+import {computed, defineEmits, defineProps, ref, watch} from "vue";
+import {useDisplay} from "vuetify";
+import {formatDate} from "@/others/util";
 
-const { width, height, mobile } = useDisplay();
+const {width, height, mobile} = useDisplay();
 const emit = defineEmits(["update:modelValue"]);
-const { label, color, modelValue, customClass, rules, variant } = defineProps([
+const {label, color, modelValue, customClass, rules, variant} = defineProps([
   "label",
   "color",
   "modelValue",

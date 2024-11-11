@@ -1,9 +1,9 @@
 <script setup>
-import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
-import { useDisplay } from "vuetify";
+import {defineEmits, defineProps, onMounted, reactive, ref} from "vue";
+import {useDisplay} from "vuetify";
 
-const { item, index } = defineProps(["item", "index", "quantityIndex", "type"]);
-const { mobile } = useDisplay();
+const {item, index} = defineProps(["item", "index", "quantityIndex", "type"]);
+const {mobile} = useDisplay();
 const emit = defineEmits(["updatePhone"]);
 
 // phone input
@@ -14,7 +14,7 @@ const selectedCountry = reactive({
   dialCode: null,
 });
 
-const formatItem5Title = ({ flag, code, name, dialCode }) => {
+const formatItem5Title = ({flag, code, name, dialCode}) => {
   return (flag ? flag : code) + " " + name + " " + dialCode;
 };
 const code = ref(null);
@@ -22,11 +22,11 @@ const phone = ref(null);
 
 const formatPhoneInput = (index) => {
   const formattedPhone = `${selectedCountry.dialCode}${phone.value}`;
-  emit("updatePhone", { formattedPhone, index });
+  emit("updatePhone", {formattedPhone, index});
 };
 
 const formatSelectedDialCode = (selectedCode) => {
-  const { flag, code, name, dialCode } = item.options.find(
+  const {flag, code, name, dialCode} = item.options.find(
     (item) => item.code == selectedCode
   );
   Object.assign(selectedCountry, {

@@ -1,9 +1,9 @@
 <script setup>
-import { useDisplay } from "vuetify";
-import { appName } from "@/others/util";
+import {useDisplay} from "vuetify";
+import {appName} from "@/others/util";
 
-const { mobile } = useDisplay();
-const { customClass } = defineProps(["customClass"]);
+const {mobile} = useDisplay();
+const {customClass} = defineProps(["customClass"]);
 </script>
 
 <template>

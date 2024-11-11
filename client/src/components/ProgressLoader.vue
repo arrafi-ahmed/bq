@@ -1,6 +1,6 @@
 <script setup>
-import { useStore } from "vuex";
-import { computed } from "vue";
+import {useStore} from "vuex";
+import {computed} from "vue";
 
 const store = useStore();
 const progress = computed(() => store.state.progress);

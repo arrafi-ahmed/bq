@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { isValidEmail } from "@/others/util";
-import { useDisplay } from "vuetify";
+import {computed, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
+import {isValidEmail} from "@/others/util";
+import {useDisplay} from "vuetify";
 
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const store = useStore();
 const router = useRouter();
 
@@ -115,7 +115,7 @@ const handleSubmitResetPassword = async () => {
                   :density="mobile ? 'comfortable' : 'default'"
                   color="primary"
                   type="submit"
-                  >Sign In
+                >Sign In
                 </v-btn>
               </div>
             </v-form>
@@ -157,7 +157,7 @@ const handleSubmitResetPassword = async () => {
               :density="mobile ? 'compact' : 'default'"
               color="primary"
               type="submit"
-              >Submit
+            >Submit
             </v-btn>
           </v-card-actions>
         </v-form>

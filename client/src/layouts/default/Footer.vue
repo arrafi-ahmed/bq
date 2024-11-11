@@ -1,7 +1,7 @@
 <script setup>
-import { appName, getToLink } from "@/others/util";
+import {appName, getToLink} from "@/others/util";
 
-const items = [{ title: "Home", to: { name: "home" } }];
+const items = [{title: "Home", to: {name: "home"}}];
 </script>
 <template>
   <v-footer class="bg-grey-lighten-3 flex-grow-0">

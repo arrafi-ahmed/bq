@@ -1,4 +1,4 @@
-import { createStore } from "vuex";
+import {createStore} from "vuex";
 import * as user from "./modules/user";
 import * as quiz from "./modules/quiz";
 

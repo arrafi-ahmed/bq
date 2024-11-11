@@ -1,13 +1,9 @@
 <script setup>
-import { useStore } from "vuex";
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import {useStore} from "vuex";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import PageTitle from "@/components/PageTitle.vue";
-import {
-  convertArrayToText,
-  convertTextToJson,
-  showToast,
-} from "@/others/util";
-import { useRoute, useRouter } from "vue-router";
+import {convertArrayToText, convertTextToJson, showToast,} from "@/others/util";
+import {useRoute, useRouter} from "vue-router";
 
 const store = useStore();
 const router = useRouter();
@@ -29,7 +25,7 @@ const downloadJsonFile = () => {
   const convertedJson = convertToJson();
   if (!convertedJson) return;
 
-  const blob = new Blob([convertedJson], { type: "text/html" });
+  const blob = new Blob([convertedJson], {type: "text/html"});
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "output.json";
@@ -39,7 +35,7 @@ const downloadJsonFile = () => {
 
 const modifyLevel = (rowIndex, action) => {
   const prevLevel = quiz.value.level[rowIndex];
-  store.commit("quiz/modifyLevel", { rowIndex, action });
+  store.commit("quiz/modifyLevel", {rowIndex, action});
 
   store.commit("quiz/setDataAtIndex", {
     value: quiz.value.data[rowIndex][prevLevel],
@@ -58,7 +54,7 @@ const targetLevelOptions = computed(() => {
   const arr = [];
   for (let i = 0; i < 5; i++) {
     //TODO: deepestLevel hardcoded
-    arr.push({ value: i, title: i + 1 });
+    arr.push({value: i, title: i + 1});
   }
   return arr;
 });
@@ -82,7 +78,7 @@ const uniqueTargetLevelKeywords = computed(() => {
   let map = new Map();
   allTargetLevelKeywords.forEach((obj) => {
     if (!map.has(obj.value)) {
-      map.set(obj.value, { value: obj.value, lines: [obj.line] });
+      map.set(obj.value, {value: obj.value, lines: [obj.line]});
     } else {
       map.get(obj.value).lines.push(obj.line);
     }
@@ -178,7 +174,7 @@ const saveQuiz = () => {
   if (route.params.id) quizObj.id = route.params.id;
 
   store.dispatch("quiz/saveQuiz", quizObj).then((res) => {
-    router.push({ name: "quiz-list" });
+    router.push({name: "quiz-list"});
   });
 };
 
@@ -234,7 +230,7 @@ onMounted(async () => {
                   :class="`level-${quiz.level[rowIndex] + 1}-color`"
                   class="ps-2"
                   cols="1"
-                  >{{ rowIndex + 1 }}
+                >{{ rowIndex + 1 }}
                 </v-col>
                 <v-col
                   :class="`level-${quiz.level[rowIndex] + 1}`"
@@ -304,7 +300,7 @@ onMounted(async () => {
                 filter-icon="mdi-checkbox-marked-circle"
                 size="large"
                 @click="selectKeyword(index)"
-                >{{ item.value }}
+              >{{ item.value }}
               </v-chip>
             </v-chip-group>
             <v-text-field

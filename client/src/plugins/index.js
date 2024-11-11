@@ -9,8 +9,8 @@ import vuetify from "./vuetify";
 import router from "../router";
 import store from "../store";
 import $axios from "@/plugins/axios";
-import { appear } from "@/directive/appear";
-import { getQueryParam, removeQueryParams } from "@/others/util";
+import {appear} from "@/directive/appear";
+import {getQueryParam, removeQueryParams} from "@/others/util";
 
 function handleApiQueryMsg() {
   //check if message came from server through query params
@@ -25,12 +25,12 @@ function handleApiQueryMsg() {
 
 function handleAuthRoutes(to, signedin) {
   if (to.matched.some((record) => record.meta.requiresNoAuth) && signedin) {
-    return { name: "home" };
+    return {name: "home"};
   } else if (
     to.matched.some((record) => record.meta.requiresAuth) &&
     !signedin
   ) {
-    return { name: "signin" };
+    return {name: "signin"};
   }
   return null;
 }

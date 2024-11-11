@@ -1,9 +1,9 @@
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import { convertTextToArr, isValidTxtfile } from "@/others/util";
-import { ref } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import {convertTextToArr, isValidTxtfile} from "@/others/util";
+import {ref} from "vue";
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
 const store = useStore();
 const router = useRouter();
@@ -19,9 +19,8 @@ const handleClickConvert = () => {
     store.commit("resetQuiz");
     convertTextToArr(inputFile.value)
       .then((quiz) => {
-        // console.log(23, data, level);
         store.commit("quiz/setQuiz", quiz);
-        router.push({ name: "quiz-edit" });
+        router.push({name: "quiz-edit"});
       })
       .catch((error) => {
         console.error(error);
@@ -70,7 +69,7 @@ const handleClickConvert = () => {
               class="mx-auto"
               variant="outlined"
               @click="handleClickConvert"
-              >Convert
+            >Convert
             </v-btn>
           </v-col>
         </v-row>
