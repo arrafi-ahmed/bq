@@ -1,3 +1,5 @@
+# Deployment Guide:
+
 Quick step-by-step guide to get you up and running:
 
 1. **Install** Node.js and PostgreSQL on your machine.
